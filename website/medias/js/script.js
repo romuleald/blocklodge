@@ -1,3 +1,4 @@
+var SVNREVISION = '$Revision';
 /* jquery 1.4.2 based */
 $().ready(function()
 {
