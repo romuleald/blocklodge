@@ -1,0 +1,33 @@
+/* base */
+body{font-size:10px;color:#FFF;padding:0;margin:0;}
+.em12,p, li{font-size:1.2em;}
+li li, li p{}
+p,li,ul,ol,dl,dd,dt,form,fieldset{margin:0;padding:0;}
+ul,ol{list-style:none;}
+
+a{color:#666;}
+a:hover{text-decoration:none;color:#555;}
+
+/* struct */
+#blacklodge{background:#000;height:100%;}
+html{height:100%;}
+#site{margin:0 5px;}
+#top{}
+#title{}
+#notification{padding:2px 5px;background:#999;border:solid 1px #BBB;text-align:right;}
+#forum{width:25%;background:#090909;border:solid 1px #BBB;}
+#core{width:60%;background:#090909;border:solid 1px #BBB;}
+#chat{}
+#profil{}
+#messages{}
+#frienBar{width:12%;background:#090909;border:solid 1px #BBB;}
+
+/* context */
+.forumItem{margin:5px 0;}
+.friendList{max-height:90%;overflow:auto;}
+
+/* helpme */
+.iBlk{display:inline-block;display:-moz-inline-stack}
+.halfSize{width:49%;}
+.vaM{vertical-align:middle;}
+.vaT{vertical-align:top;}
