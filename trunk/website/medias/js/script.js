@@ -3,6 +3,7 @@ var SVNREVISION = '$Revision$';
 $().ready(function()
 {
 	BL.sizeStructure();
+	BL.chat.init();
 });
 $(window).resize(function()
 {
@@ -10,7 +11,13 @@ $(window).resize(function()
 });
 
 /* nameSpace BL */
-
+if(!console){
+	var console = {
+		log:function(){},
+		info:function(){},
+		dir:function(){}
+	}
+}
 var BL = {};
 
 BL.sizeStructure = function()
