@@ -25,4 +25,5 @@ BL.sizeStructure = function()
 	iHeight = document.body.clientHeight - document.getElementById('top').clientHeight -2;
 	console.info(iHeight);
 	$('#forum,#core,#frienBar').height(iHeight);
+	$('#chatList').height(iHeight - 200);
 };

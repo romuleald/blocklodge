@@ -76,11 +76,16 @@
 
 			</div>
 			<form action="#" method="post" onsubmit="return false;" id="chatForm">
-				<label for="chatMsg"></label>
-				<textarea id="chatMsg" rows="3" cols="60" name="post"></textarea>
-				<input type="hidden" value="romu" name="user" />
-				<input type="hidden" value="1" name="id" />
-				<input type="submit" value="envoyer" />
+				<p>
+					<label for="chatMsg">message</label><br/>
+					<textarea id="chatMsg" rows="3" cols="60" name="post"></textarea>
+				</p>
+				<p>
+					<label for="user">pseudo</label><br/>
+					<input type="text" value="pseudo" name="user" id="user" />
+					<input type="hidden" value="1" name="id" />
+				</p>
+				<p><input type="submit" value="envoyer" /></p>
 			</form>
 		</div>
 		<div id="profil">
