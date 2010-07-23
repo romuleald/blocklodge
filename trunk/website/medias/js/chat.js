@@ -43,18 +43,18 @@ BL.chat = {
 			type:"POST",
 			data:sDataToSent,
 			success:function(data){
-				console.info('data', data)
+				console.info('data', data);
 				BL.chat.refreshView();
 			}
 		})
 	},
 	refreshView:function(){
-		clearTimeout(BL.chat.obj.timeOut)
+		clearTimeout(BL.chat.obj.timeOut);
+		console.info('refresh');
 		$.ajax({
 			url:"chat.php",
 			success:function(data){
-				console.info('data', data)
-				BL.chat.buildView(data)
+				BL.chat.buildView(data);
 			}
 		});
 		BL.chat.obj.timeOut = setTimeout(BL.chat.refreshView,1000);
@@ -64,4 +64,4 @@ BL.chat = {
 		BL.chat.obj.JQoChatList.html(data);
 	}
 
-}
+};

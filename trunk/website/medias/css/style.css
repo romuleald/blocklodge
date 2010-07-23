@@ -19,7 +19,12 @@ html{height:100%;}
 #notification{padding:2px 5px;background:#999;border:solid 1px #BBB;text-align:right;}
 #forum{width:25%;background:#090909;border:solid 1px #BBB;}
 #core{width:60%;background:#090909;border:solid 1px #BBB;}
+
+
 #chat{}
+#chatList{overflow:auto;}
+
+
 #profil{}
 #messages{}
 #frienBar{width:12%;background:#090909;border:solid 1px #BBB;}
@@ -34,3 +39,5 @@ html{height:100%;}
 .halfSize{width:49%;}
 .vaM{vertical-align:middle;}
 .vaT{vertical-align:top;}
+
+.padding{padding:10px;}

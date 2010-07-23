@@ -1,5 +1,14 @@
 <?php
 
+if($_SERVER['REMOTE_ADDR']== "192.168.1.100"){
+	$link = mysql_connect("127.0.0.1", "root", "");
+	$db = mysql_select_db('blacklodge', $link);
+}
+else
+{
+
+
+}
 $link = mysql_connect("127.0.0.1", "root", "");
 $db = mysql_select_db('blacklodge', $link);
 if(isset($_POST['id']))
@@ -9,15 +18,17 @@ if(isset($_POST['id']))
 	mysql_query($sQuery);
 }
 else{
-	$sQuery = mysql_query("SELECT * FROM  `chat` LIMIT 0, 30");
+	$sQuery = mysql_query("SELECT * FROM  `chat` ORDER BY  `date` DESC LIMIT 0, 30");
 
 	while($row = mysql_fetch_assoc($sQuery)){
 	?>
-	<div class="">
-		<?php echo $row["user"];?>
-		<?php echo $row["id"];?>
+	<div class="padding">
+		<p>
+			<?php echo $row["user"];?>
+			<?php echo $row["id"];?>
+		</p>
 		<p><?php echo $row["post"];?></p>
-		<?php echo $row["date"];?>
+		<p>à : <?php echo $row["date"];?></p>
 		<hr/>
 	</div>
 	<?php
