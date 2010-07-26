@@ -1,5 +1,7 @@
 /* $Revision$ */
 
+/*DEV:currently hidden*/
+#forum,#frienBar,#notification{visibility:hidden;}
 /* base */
 body{font-size:10px;color:#FFF;padding:0;margin:0;}
 .em12,p, li{font-size:1.2em;}
