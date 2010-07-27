@@ -22,7 +22,7 @@ var BL = {};
 
 BL.sizeStructure = function()
 {
-	iHeight = document.body.clientHeight - document.getElementById('top').clientHeight -2;
+	iHeight = $(document.body).height() - document.getElementById('top').clientHeight - 20;
 	//console.info(iHeight);
 	$('#forum,#core,#frienBar').height(iHeight);
 	$('#chatList').height(iHeight - 200);
