@@ -118,9 +118,9 @@ BL.chat = {
 				var sTpl = '';
 				sTpl += '<p class="post">';
 				sTpl += JSONChat[i].user;
-				sTpl += JSONChat[i].id;
+//				sTpl += JSONChat[i].id;
 				sTpl += '</p>';
-				sTpl += '<p class="post">' + JSONChat[i].post + '</p>';
+				sTpl += '<p class="post">' + JSONChat[i].post.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,'<a href="$1">$1</a>', JSONChat[i].post) + '</p>';
 				sTpl += '<p class="date">à : ' + JSONChat[i].date + '</p>';
 				oDiv.innerHTML = sTpl;
 				$(oDiv).insertAfter(BL.chat.obj.JQoChatList.find("div:last"));
