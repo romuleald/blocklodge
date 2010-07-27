@@ -3,9 +3,9 @@
 /*DEV:currently hidden*/
 #forum,#frienBar,#notification{visibility:hidden;}
 /* base */
-body{font-size:10px;color:#FFF;padding:0;margin:0;}
+body{font:normal normal  10px/1.5em 'Nobile', arial, serif;color:#FFF;padding:0;margin:0;}
 .em12,p, li{font-size:1.2em;}
-li li, li p{}
+li li, li p{font-size:1em;}
 p,li,ul,ol,dl,dd,dt,form,fieldset{margin:0;padding:0;}
 ul,ol{list-style:none;}
 
@@ -24,7 +24,8 @@ html{height:100%;}
 
 
 #chat{}
-#chatList{overflow:auto;}
+#chatList{overflow:auto;border-top:solid 1px;}
+#chatList div{border-bottom:solid 1px;background:#111;}
 
 
 #profil{}

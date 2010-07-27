@@ -23,6 +23,7 @@ BL.chat = {
 		JQoChatList:null,
 		bCanScroll:true,
 		bCanPost:true,
+		iLastId:0,
 		timeOut:null
 	},
 	init:function(){
@@ -80,9 +81,10 @@ BL.chat = {
 	refreshView:function(bIsFirst){
 		clearTimeout(BL.chat.obj.timeOut);
 		//console.info('refresh');
-		var sUrl = (bIsFirst) ? 'chat.php?html=true' : 'chat.php?html=true';
+		var sUrl = (bIsFirst) ? 'chat.php?html=true' : 'chat.php';
 		$.ajax({
 			url:sUrl,
+			data:{lastid:BL.chat.obj.iLastId},
 			success:function(data){
 				BL.chat.buildView(data, bIsFirst);
 				BL.chat.scrollTo();
@@ -95,11 +97,36 @@ BL.chat = {
 		//actually html is build by php, after, php will send json and html will be build here
 		if(bIsHtml){
     	BL.chat.obj.JQoChatList.html(data);
+			// on recupere l'id du dernier message
+			BL.chat.obj.iLastId = parseInt(BL.chat.obj.JQoChatList.find("div:last")[0].id.split('chat')[1]);
+
 		}
 		else
 		{
-			BL.chat.obj.JQoChatList.html(data);
-			//console.info(eval(data));
+//			BL.chat.obj.JQoChatList.html(data);
+			var JSONChat = eval(data);
+			if(JSONChat.length == 0){return;}
+//			console.info(JSONChat);
+			var i = 0;
+			while(JSONChat.length > i)
+			{
+				var oDiv = document.createElement('div');
+				oDiv.className = 'padding';
+				oDiv.id = 'chat' + JSONChat[i].index;
+				var sTpl = '';
+				sTpl += '<p class="post">';
+				sTpl += JSONChat[i].user;
+				sTpl += JSONChat[i].id;
+				sTpl += '</p>';
+				sTpl += '<p class="post">' + JSONChat[i].post + '</p>';
+				sTpl += '<p class="date">à : ' + JSONChat[i].date + '</p>';
+				oDiv.innerHTML = sTpl;
+				$(oDiv).insertAfter(BL.chat.obj.JQoChatList.find("div:last"));
+				i++;
+			}
+
+			//console.info($(sTpl));
+			BL.chat.obj.iLastId = JSONChat[JSONChat.length-1].index;
 		}
 
 
