@@ -1,7 +1,9 @@
 <?php
-
-	$link = mysql_connect("127.0.0.1", "root", "");
-	$db = mysql_select_db('blacklodge', $link);
+	include "inc/tehbd.php";
+	$link = mysql_connect('localhost', $sUsr, $sPsswrd);
+	$db = mysql_select_db($sDbName, $link);
+//	$link = mysql_connect("localhost", "romuald", "chance") or die('ouin');
+//	$db = mysql_select_db('frigo', $link);
 if(isset($_POST['id']))
 {
 	?>!!!<?php
