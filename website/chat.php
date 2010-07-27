@@ -1,5 +1,4 @@
 <?php
-
 	include "inc/tehbd.php";
 	$link = mysql_connect('127.0.0.1', $sUsr, $sPsswrd);
 	$db = mysql_select_db($sDbName, $link);
@@ -11,7 +10,14 @@ if(isset($_POST['id']))
 	mysql_query($sQuery);
 }
 else{
-	$sQuery = mysql_query("SELECT * FROM `chat` WHERE `index` > ".$_GET['lastid']." ORDER BY `index`");
+	if(isset($_GET['lastid']))
+	{
+		$sQuery = mysql_query("SELECT * FROM `chat` WHERE `index` > ".$_GET['lastid']." ORDER BY `index`");
+	}
+	else
+	{
+		$sQuery = mysql_query("SELECT * FROM `chat` ORDER BY `index`");
+	}
 
 	?>
 <?php if(isset($_GET['html']))
@@ -38,7 +44,20 @@ else{
 			while($row = mysql_fetch_assoc($sQuery))
 			{
 				$index++;
-				echo json_encode($row);
+				echo "{";
+				$indexCol = 0;
+				foreach($row as $key => $val)
+				{
+					echo "'" . $key . "'";
+					echo ':';
+					echo "'" . strip_tags(addslashes($val)) . "'";
+					if(count($row) > $indexCol+1)
+					{
+						echo ',';
+					}
+					$indexCol++;
+				}
+				echo "}";
 				if(mysql_num_rows($sQuery) > $index)
 				{
 					echo ',';
