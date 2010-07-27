@@ -103,13 +103,15 @@ BL.chat = {
 		}
 		else
 		{
-//			BL.chat.obj.JQoChatList.html(data);
+			if(data == '' || data == '['){return;}
+
 			var JSONChat = eval(data);
 			if(JSONChat.length == 0){return;}
-//			console.info(JSONChat);
+
 			var i = 0;
 			while(JSONChat.length > i)
 			{
+				if(document.getElementById('chat' + JSONChat[i].index)){return}
 				var oDiv = document.createElement('div');
 				oDiv.className = 'padding';
 				oDiv.id = 'chat' + JSONChat[i].index;
