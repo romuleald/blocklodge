@@ -29,7 +29,7 @@ else{
 			<?php echo $row["user"];?>
 			<?php //echo $row["id"];?>
 		</p>
-		<p class="post"><?php echo $row["post"];?></p>
+		<p class="post"><?php echo $row["post"] = preg_replace("@[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]@","<a href=\"\\0\">\\0</a>", $row["post"]);?></p>
 		<p class="date">à : <?php echo $row["date"];?></p>
 	</div>
 	<?php
@@ -50,7 +50,7 @@ else{
 				{
 					echo "'" . $key . "'";
 					echo ':';
-					echo "'" . strip_tags(addslashes($val)) . "'";
+					echo "'" . addslashes($val) . "'";
 					if(count($row) > $indexCol+1)
 					{
 						echo ',';
