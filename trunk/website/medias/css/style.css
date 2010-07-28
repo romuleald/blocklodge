@@ -26,6 +26,9 @@ html{height:100%;}
 #chat{}
 #chatList{overflow:auto;border-top:solid 1px;}
 #chatList div{border-bottom:solid 1px;background:#111;}
+#chatList .pseudo{}
+#chatList .post{}
+#chatList .date{font-size:.8em;}
 
 
 #profil{}
@@ -42,5 +45,5 @@ html{height:100%;}
 .halfSize{width:49%;}
 .vaM{vertical-align:middle;}
 .vaT{vertical-align:top;}
-
+.bold{font-weight:bold;}
 .padding{padding:10px;}
