@@ -24,6 +24,7 @@ BL.chat = {
 		bCanScroll:true,
 		bCanPost:true,
 		iLastId:0,
+		iRefreshTime:null,
 		timeOut:null
 	},
 	init:function(){
@@ -66,6 +67,10 @@ BL.chat = {
 	},
 	sendChat:function(sDataToSent){
 		//console.info(sDataToSent);
+		if(!BL.chat.obj.bCanPost){return}
+		BL.chat.obj.bCanPost = false;
+		BL.chat.obj.JQoForm.fadeTo(100,0.5);
+
 		$.ajax({
 			url:"chat.php",
 			type:"POST",
@@ -74,6 +79,8 @@ BL.chat = {
 				//console.info('data', data);
 				$('#chatMsg')[0].value = '';
 				BL.chat.refreshView(false);
+				BL.chat.obj.bCanPost = true;
+				BL.chat.obj.JQoForm.fadeTo(100,1);
 			}
 		})
 
@@ -81,6 +88,7 @@ BL.chat = {
 	refreshView:function(bIsFirst){
 		clearTimeout(BL.chat.obj.timeOut);
 		//console.info('refresh');
+		BL.chat.obj.iRefreshTime = new Date();
 		var sUrl = (bIsFirst) ? 'chat.php?html=true' : 'chat.php';
 		$.ajax({
 			url:sUrl,
@@ -89,6 +97,7 @@ BL.chat = {
 				BL.chat.buildView(data, bIsFirst);
 				BL.chat.scrollTo();
 				BL.chat.obj.timeOut = setTimeout(function(){BL.chat.refreshView(false)},1500);
+	      $('#timerTracker').find('.gaugeTT').animate({width:(new Date() - BL.chat.obj.iRefreshTime) /10 + '%'},100);
 			}
 		});
 
