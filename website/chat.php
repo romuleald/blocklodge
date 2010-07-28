@@ -28,9 +28,10 @@ else{
 		<p class="user">
 			<?php echo $row["user"];?>
 			<?php //echo $row["id"];?>
+		<span class="date">à : <?php echo $row["date"];?></span>
 		</p>
 		<p class="post"><?php echo $row["post"] = preg_replace("@[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]@","<a href=\"\\0\">\\0</a>", $row["post"]);?></p>
-		<p class="date">à : <?php echo $row["date"];?></p>
+
 	</div>
 	<?php
 		}
