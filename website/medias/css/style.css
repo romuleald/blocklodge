@@ -48,7 +48,16 @@ html{height:100%;}
     color-stop(0.5, rgb(255,191,28)),
     color-stop(0.75, rgb(255,140,0)),
     color-stop(1, rgb(255,0,0))
+);
+background:-moz-linear-gradient(
+    left bottom,
+    rgb(0,245,37) 0%,
+    rgb(217,255,0) 25%,
+    rgb(255,191,28) 50%,
+    rgb(255,140,0) 75%,
+    rgb(255,0,0) 100%
 )
+
 }
 
 /* context */
