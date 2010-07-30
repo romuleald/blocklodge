@@ -11,7 +11,7 @@ $(window).resize(function()
 });
 $(window).unload(function()
 {
-	$.cookie('user',$('#user').val());
+	$.cookie('user',$('#user').val(),{ expires: 7});
 });
 
 /* nameSpace BL */
