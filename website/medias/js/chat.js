@@ -19,6 +19,7 @@ l'user arrive
 BL.chat = {
 	obj:{
 		JQoForm:null,
+		JQoFormTxtarea:null,
 		JQoChats:null,
 		JQoChatList:null,
 		bCanScroll:true,
@@ -31,16 +32,22 @@ BL.chat = {
 		BL.chat.obj.JQoForm = $('#chatForm');
 		BL.chat.obj.JQoChats = $('#chat');
 		BL.chat.obj.JQoChatList = $('#chatList');
-		BL.chat.obj.JQoForm.find('textarea').focus();
+		BL.chat.obj.JQoFormTxtarea = BL.chat.obj.JQoForm.find('textarea');
+
+		BL.chat.obj.JQoFormTxtarea.focus();
+
 		$('#user').val($.cookie('user'));
-		$('#chatForm').submit(function(e)
+
+		BL.chat.obj.JQoForm.submit(function(e)
 		{
-			if($('#chatMsg')[0].textLength > 1) {
+			if($('#chatMsg').val().length > 1) {
 				//console.info(this);
 				e.stopPropagation();
-				BL.chat.sendChat($(this).serialize())
+				BL.chat.sendChat($(this).serialize());
+				$('#chatMsg').val('');
 			}
 		});
+
 		$('#chatMsg').keydown(function(e)
 		{
 			if(e.keyCode == 13)
@@ -62,12 +69,33 @@ BL.chat = {
 				BL.chat.obj.bCanScroll = false;
 			}
 
+		}).click(function(e){
+			if($(e.target).hasClass('pseudo'))
+			{
+				var JQTxt = BL.chat.obj.JQoFormTxtarea;
+				console.info(e.target);
+				JQTxt.val(e.target.innerHTML + ' : ').focus();
+				if (JQTxt[0].setSelectionRange)
+				{
+					JQTxt[0].setSelectionRange(JQTxt[0].textLength, JQTxt[0].textLength)
+				}
+				else
+				{
+					var range = JQTxt[0].createTextRange();
+					range.collapse(true);
+					range.moveEnd('character', JQTxt[0].innerText.length);
+					range.moveStart('character', JQTxt[0].innerText.length);
+					range.select();
+				}
+
+			}
 		});
+
 		BL.chat.refreshView(true);
 
 	},
 	sendChat:function(sDataToSent){
-		//console.info(sDataToSent);
+		console.log('yeah');
 		if(!BL.chat.obj.bCanPost){return}
 		BL.chat.obj.bCanPost = false;
 		BL.chat.obj.JQoForm.fadeTo(100,0.5);
@@ -78,7 +106,7 @@ BL.chat = {
 			data:sDataToSent,
 			success:function(){
 				//console.info('data', data);
-				$('#chatMsg')[0].value = '';
+				//alert(sDataToSent);
 				BL.chat.refreshView(false);
 				BL.chat.obj.bCanPost = true;
 				BL.chat.obj.JQoForm.fadeTo(100,1);
@@ -127,7 +155,7 @@ BL.chat = {
 				oDiv.id = 'chat' + JSONChat[i].index;
 				var sTpl = '';
 				sTpl += '<p class="user">';
-				sTpl += JSONChat[i].user;
+				sTpl += '<a class="pseudo">' +JSONChat[i].user +'</a>';
 //				sTpl += JSONChat[i].id;
 				sTpl += ' <span class="date">à : ' + JSONChat[i].date + '</span></p>';
 				var sClassIsQuoted = (JSONChat[i].post.match(document.getElementById('user').value)) ? ' bold':'';

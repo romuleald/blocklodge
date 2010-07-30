@@ -19,7 +19,7 @@ else{
 ?>
 	<div class="padding" id="chat<?php echo $row["index"];?>">
 		<p class="user">
-			<?php echo $row["user"];?>
+			<a class="pseudo"><?php echo $row["user"];?></a>
 			<?php //echo $row["id"];?>
 		<span class="date">à : <?php echo $row["date"];?></span>
 		</p>

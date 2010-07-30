@@ -26,8 +26,9 @@ html{height:100%;}
 #chat{}
 #chatList{overflow:auto;border-top:solid 1px;}
 #chatList div{border-bottom:solid 1px;background:#111;}
-#chatList .pseudo{}
-#chatList .post{}
+#chatList .user{color:#999;}
+#chatList .pseudo{color:#BBB;cursor:pointer;}
+#chatList .post{margin:5px 0;}
 #chatList .date{font-size:.8em;}
 
 
