@@ -31,7 +31,8 @@ BL.chat = {
 		BL.chat.obj.JQoForm = $('#chatForm');
 		BL.chat.obj.JQoChats = $('#chat');
 		BL.chat.obj.JQoChatList = $('#chatList');
-
+		BL.chat.obj.JQoForm.find('textarea').focus();
+		$('#user').val($.cookie('user'));
 		$('#chatForm').submit(function(e)
 		{
 			if($('#chatMsg')[0].textLength > 1) {
@@ -136,7 +137,7 @@ BL.chat = {
 				$(oDiv).insertAfter(BL.chat.obj.JQoChatList.find("div:last"));
 				i++;
 			}
-
+			BL.chat.scrollTo();
 			//console.info($(sTpl));
 			BL.chat.obj.iLastId = JSONChat[JSONChat.length-1].index;
 		}
@@ -146,7 +147,7 @@ BL.chat = {
 	scrollTo:function(){
 		if(BL.chat.obj.bCanScroll)
 		{
-	   	BL.chat.obj.JQoChatList.find("div:last")[0].scrollIntoView();
+	   	BL.chat.obj.JQoChatList.animate({scrollTop:BL.chat.obj.JQoChatList[0].scrollHeight},500);
 		}
 
 	}
