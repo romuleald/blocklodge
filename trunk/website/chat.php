@@ -10,18 +10,11 @@ if(isset($_POST['id']))
 	mysql_query($sQuery);
 }
 else{
-	if(isset($_GET['lastid']))
-	{
-		$sQuery = mysql_query("SELECT * FROM `chat` WHERE `index` > ".$_GET['lastid']." ORDER BY `index`");
-	}
-	else
-	{
-		$sQuery = mysql_query("SELECT * FROM `chat` ORDER BY `index`");
-	}
-
 	?>
 <?php if(isset($_GET['html']))
 	{
+		$sQuery = mysql_query("SELECT * FROM (SELECT * FROM `chat` ORDER BY `index` DESC LIMIT 30) AS pouet ORDER BY `index` ASC;");
+
 		while($row = mysql_fetch_assoc($sQuery)){
 ?>
 	<div class="padding" id="chat<?php echo $row["index"];?>">
@@ -38,6 +31,7 @@ else{
 	}
 	else
 	{
+		$sQuery = mysql_query("SELECT * FROM `chat` WHERE `index` > ".$_GET['lastid']." ORDER BY `index`");
 //		header('Content-type: text/javascript');
 		?>[<?php
 //			echo mysql_fetch_assoc($sQuery);
@@ -63,7 +57,8 @@ else{
 				{
 					echo ',';
 				}
-			}?>]<?php
+			}
+			?>]<?php
 
 		 } ?>
 <?php } ?>

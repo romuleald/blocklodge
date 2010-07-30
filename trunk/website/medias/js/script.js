@@ -9,6 +9,10 @@ $(window).resize(function()
 {
 	BL.sizeStructure();
 });
+$(window).unload(function()
+{
+	$.cookie('user',$('#user').val());
+});
 
 /* nameSpace BL */
 if(!console){
