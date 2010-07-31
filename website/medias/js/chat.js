@@ -95,7 +95,6 @@ BL.chat = {
 
 	},
 	sendChat:function(sDataToSent){
-		console.log('yeah');
 		if(!BL.chat.obj.bCanPost){return}
 		BL.chat.obj.bCanPost = false;
 		BL.chat.obj.JQoForm.fadeTo(100,0.5);

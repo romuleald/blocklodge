@@ -6,8 +6,11 @@
 //	$db = mysql_select_db('blacklodge', $link);
 if(isset($_POST['id']))
 {
-	$sQuery = "INSERT INTO  `chat` (  `user` ,  `id` ,  `post` ,  `date` ) VALUES ('". $_POST['user'] . "', '" . $_POST['id'] . "', '" . strip_tags(addslashes($_POST['post'])) . "', CURRENT_TIMESTAMP)";
-	mysql_query($sQuery);
+	date_default_timezone_set('Europe/Paris');
+	$currentDate = date('Y-m-d H:i:s',time());
+	$sQuery = "INSERT INTO  `chat` (  `user` ,  `id` ,  `post` ,  `date` ) VALUES ('". $_POST['user'] . "', '" . $_POST['id'] . "', '" . strip_tags(addslashes($_POST['post'])) . "', '" . $currentDate . "')";
+//	echo $sQuery;
+		mysql_query($sQuery);
 }
 else{
 	?>
@@ -29,7 +32,7 @@ else{
 	<?php
 		}
 	}
-	else
+	elseif(isset($_GET['lastid']))
 	{
 		$sQuery = mysql_query("SELECT * FROM `chat` WHERE `index` > ".$_GET['lastid']." ORDER BY `index`");
 //		header('Content-type: text/javascript');
@@ -60,6 +63,9 @@ else{
 			}
 			?>]<?php
 
-		 } ?>
+	}
+	else{
+echo '....';
+	}?>
 <?php } ?>
 <?php mysql_close($link); ?>
