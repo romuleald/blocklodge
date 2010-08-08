@@ -26,7 +26,8 @@ BL.chat = {
 		bCanPost:true,
 		iLastId:0,
 		iRefreshTime:null,
-		timeOut:null
+		timeOut:null,
+		onlineTimeOut:null
 	},
 	init:function(){
 		BL.chat.obj.JQoForm = $('#chatForm');
@@ -73,7 +74,7 @@ BL.chat = {
 			if($(e.target).hasClass('pseudo'))
 			{
 				var JQTxt = BL.chat.obj.JQoFormTxtarea;
-				console.info(e.target);
+				//console.info(e.target);
 				JQTxt.val(e.target.innerHTML + ' : ').focus();
 				if (JQTxt[0].setSelectionRange)
 				{
@@ -92,6 +93,7 @@ BL.chat = {
 		});
 
 		BL.chat.refreshView(true);
+		BL.chat.isOnline();
 
 	},
 	sendChat:function(sDataToSent){
@@ -100,7 +102,7 @@ BL.chat = {
 		BL.chat.obj.JQoForm.fadeTo(100,0.5);
 
 		$.ajax({
-			url:"chat.php",
+			url:"ws/chat.php",
 			type:"POST",
 			data:sDataToSent,
 			success:function(){
@@ -117,7 +119,7 @@ BL.chat = {
 		clearTimeout(BL.chat.obj.timeOut);
 		//console.info('refresh');
 		BL.chat.obj.iRefreshTime = new Date();
-		var sUrl = (bIsFirst) ? 'chat.php?html=true' : 'chat.php';
+		var sUrl = (bIsFirst) ? 'ws/chat.php?html=true' : 'ws/chat.php';
 		$.ajax({
 			url:sUrl,
 			data:{lastid:BL.chat.obj.iLastId},
@@ -177,6 +179,29 @@ BL.chat = {
 	   	BL.chat.obj.JQoChatList.animate({scrollTop:BL.chat.obj.JQoChatList[0].scrollHeight},500);
 		}
 
+	},
+	isOnline:function(){
+		clearTimeout(BL.chat.obj.onlineTimeOut);
+		$.ajax({
+			url:"ws/whosonline.php",
+			type:"POST",
+			data:BL.chat.obj.JQoForm.serialize(),
+			success:function(){
+
+				$.ajax({
+					url:"ws/whosonline.php",
+					type:"GET",
+					success:function(data){
+	        	$('#frienBar').find('.friendList').html(data);
+						BL.chat.obj.onlineTimeOut = setTimeout(BL.chat.isOnline,15000);
+
+					}
+
+				});
+
+			}
+		});
+		
 	}
 
 };

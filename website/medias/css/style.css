@@ -1,7 +1,7 @@
 /* $Revision$ */
 
 /*DEV:currently hidden*/
-#forum,#frienBar,#notification{visibility:hidden;}
+#forum,#notification{visibility:hidden;}
 /* base */
 body{font:normal normal  10px/1.5em 'Nobile', arial, serif;color:#FFF;padding:0;margin:0;}
 .em12,p, li{font-size:1.2em;}
@@ -28,7 +28,7 @@ html{height:100%;}
 #chatList div{border-bottom:solid 1px;background:#111;}
 #chatList .user{color:#999;}
 #chatList .pseudo{color:#BBB;cursor:pointer;}
-#chatList .post{margin:5px 0;}
+#chatList .post{margin:5px 0;word-break: break-all;}
 #chatList .date{font-size:.8em;}
 
 
