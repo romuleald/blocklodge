@@ -126,7 +126,7 @@ BL.chat = {
 			success:function(data){
 				BL.chat.buildView(data, bIsFirst);
 				BL.chat.scrollTo();
-				BL.chat.obj.timeOut = setTimeout(function(){BL.chat.refreshView(false)},1500);
+				BL.chat.obj.timeOut = setTimeout(function(){BL.chat.refreshView(false)},2000);
 	      $('#timerTracker').find('.gaugeTT').animate({width:(new Date() - BL.chat.obj.iRefreshTime) /10 + '%'},100);
 			}
 		});
