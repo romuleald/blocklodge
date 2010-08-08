@@ -4,7 +4,7 @@
 
 if(isset($_POST['id']))
 {
-	$chatUserName = strip_tags(htmlentities(addslashes($_POST['user'])));
+	$chatUserName = strip_tags(addslashes($_POST['user']));
 	$chatUserId = $_POST['id'];
 	date_default_timezone_set('Europe/Paris');
 	$currentDate = date('Y-m-d H:i:s',time());
