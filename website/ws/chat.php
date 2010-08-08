@@ -7,7 +7,7 @@ if(isset($_POST['id']))
 {
 	date_default_timezone_set('Europe/Paris');
 	$currentDate = date('Y-m-d H:i:s',time());
-	$sQuery = "INSERT INTO  `chat` (  `user` ,  `id` ,  `post` ,  `date` ) VALUES ('". $_POST['user'] . "', '" . $_POST['id'] . "', '" . strip_tags(addslashes($_POST['post'])) . "', '" . $currentDate . "')";
+	$sQuery = "INSERT INTO  `chat` (  `user` ,  `id` ,  `post` ,  `date` ) VALUES ('". $_POST['user'] . "', '" . $_POST['id'] . "', '" . htmlspecialchars(addslashes($_POST['post'])) . "', '" . $currentDate . "')";
 //	echo $sQuery;
 	$result = $conx->query($sQuery);
 	if(!$result){
