@@ -62,26 +62,23 @@ else{
 		{
 			?>[<?php
 				$index = 0;
-				while($row = $result->fetchAll())
+				while($row = $result->fetchObject())
 				{
 					$index++;
-					echo "{
-";
+					echo "{";
 					$indexCol = 0;
-					foreach($row[0] as $key => $val)
+					foreach($row as $key => $val)
 					{
 						echo "'" . $key . "'";
 						echo ':';
 						echo "'" . $val . "'";
 						if(end($row) != $val)
 						{
-							echo ',
-';
+							echo ',';
 						}
 						$indexCol++;
 					}
-					echo "}
-";
+					echo "}";
 					if($result->rowCount() > $index)
 					{
 						echo ',';
