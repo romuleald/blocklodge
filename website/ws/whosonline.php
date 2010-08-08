@@ -39,7 +39,7 @@ else
 ?>
 	<li class="padding">
 		<p class="user">
-			<a class="pseudo"><?php echo $row->user;?></a><br/>
+			<a class="pseudo"><?php echo stripslashes($row->user);?></a><br/>
 			<span class="date">il y a : <?php echo (time() - $row->date);?> seconde<?php echo ((time() - $row->date) >= 1) ? "s" : ""?></span>
 		</p>
 
