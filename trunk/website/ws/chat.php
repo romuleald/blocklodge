@@ -40,7 +40,7 @@ else{
 				<?php //echo $row["id"];?>
 			<span class="date">à : <?php echo $row->date;?></span>
 			</p>
-			<p class="post"><?php echo $row->post = preg_replace("@[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]@","<a href=\"\\0\">\\0</a>", $row->post);?></p>
+			<p class="post"><?php echo $row->post = preg_replace("@[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]@","<a href=\"\\0\">\\0</a>", stripslashes($row->post));?></p>
 
 		</div>
 		<?php
@@ -72,7 +72,7 @@ else{
 					{
 						echo "'" . $key . "'";
 						echo ':';
-						echo "'" . addslashes($val) . "'";
+						echo "'" . $val . "'";
 						if(end($row) != $val)
 						{
 							echo ',
