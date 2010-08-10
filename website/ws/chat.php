@@ -38,7 +38,7 @@ else{
 			<p class="user">
 				<a class="pseudo"><?php echo $row->user;?></a>
 				<?php //echo $row["id"];?>
-			<span class="date">à : <?php echo $row->date;?></span>
+			<span class="date">Ã  : <?php echo $row->date;?></span>
 			</p>
 			<p class="post"><?php echo $row->post = preg_replace("@[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]@","<a href=\"\\0\">\\0</a>", stripslashes($row->post));?></p>
 
@@ -71,7 +71,7 @@ else{
 					{
 						echo "'" . $key . "'";
 						echo ':';
-						echo "'" . $val . "'";
+						echo "'" . str_replace(array("\r", "\r\n", "\n"), ' ', $val) . "'";
 						if(end($row) != $val)
 						{
 							echo ',';
