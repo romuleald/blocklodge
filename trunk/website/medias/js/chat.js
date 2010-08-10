@@ -75,7 +75,7 @@ BL.chat = {
 			{
 				var JQTxt = BL.chat.obj.JQoFormTxtarea;
 				//console.info(e.target);
-				JQTxt.val(e.target.innerHTML + ' : ').focus();
+				JQTxt.val(e.target.innerHTML + ' : ' + JQTxt.val()).focus();
 				if (JQTxt[0].setSelectionRange)
 				{
 					JQTxt[0].setSelectionRange(JQTxt[0].textLength, JQTxt[0].textLength)
