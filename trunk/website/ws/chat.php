@@ -32,6 +32,12 @@ else{
 		}
 		else
 		{
+			$bIsNamed = false;
+			if(isset($_COOKIE["user"]))
+			{
+				$bIsNamed = $_COOKIE["user"];
+			}
+
 			while($row = $result->fetchObject()){
 	?>
 		<div class="padding" id="chat<?php echo $row->index;?>">
@@ -40,10 +46,10 @@ else{
 				<?php //echo $row["id"];?>
 			<span class="date">Ã  : <?php echo $row->date;?></span>
 			</p>
-			<p class="post"><?php echo $row->post = preg_replace("@[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]@","<a href=\"\\0\">\\0</a>", stripslashes($row->post));?></p>
+			<p class="post<?php echo preg_match("/\b$bIsNamed\b/i", $row->post) ? ' bold' : ''; ?>"><?php echo $row->post = preg_replace("@[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]@","<a href=\"\\0\">\\0</a>", stripslashes($row->post));?></p>
 
 		</div>
-		<?php
+	<?php
 			}
 		}
 		$result->closeCursor();
