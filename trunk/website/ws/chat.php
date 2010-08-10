@@ -44,7 +44,7 @@ else{
 			<p class="user">
 				<a class="pseudo"><?php echo $row->user;?></a>
 				<?php //echo $row["id"];?>
-			<span class="date">Ã  : <?php echo $row->date;?></span>
+			<span class="date">à : <?php echo $row->date;?></span>
 			</p>
 			<p class="post<?php echo preg_match("/\b$bIsNamed\b/i", $row->post) ? ' bold' : ''; ?>"><?php echo $row->post = preg_replace("@[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]@","<a href=\"\\0\">\\0</a>", stripslashes($row->post));?></p>
 
