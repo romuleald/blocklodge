@@ -32,7 +32,7 @@ else{
 		}
 		else
 		{
-			$bIsNamed = false;
+			$bIsNamed = "untrucimpossiblearefairedansunpseudo654984-('";
 			if(isset($_COOKIE["user"]))
 			{
 				$bIsNamed = $_COOKIE["user"];
