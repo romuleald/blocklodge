@@ -1,18 +1,33 @@
 var SVNREVISION = '$Revision$';
 /* jquery 1.4.2 based */
+
 $().ready(function()
 {
 	BL.sizeStructure();
 	BL.chat.init();
 });
+
 $(window).resize(function()
 {
 	BL.sizeStructure();
 });
+
 $(window).unload(function()
 {
 	$.cookie('user',$('#user').val(),{ expires: 7});
 });
+
+$(window).bind('blur', function(e){
+	BL.away.bIsAway = true;
+	BL.away.iSince = new Date().getTime();
+});
+
+$(window).bind('focus', function(e){
+	BL.away.bIsAway = false;
+	BL.flashTitle.reset();
+});
+
+
 
 /* nameSpace BL */
 if(!console){

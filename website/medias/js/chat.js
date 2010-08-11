@@ -27,7 +27,8 @@ BL.chat = {
 		iLastId:0,
 		iRefreshTime:null,
 		timeOut:null,
-		onlineTimeOut:null
+		onlineTimeOut:null,
+		iUnreadMsg:0
 	},
 	init:function(){
 		BL.chat.obj.JQoForm = $('#chatForm');
@@ -164,6 +165,11 @@ BL.chat = {
 				sTpl += '';
 				oDiv.innerHTML = sTpl;
 				$(oDiv).insertAfter(BL.chat.obj.JQoChatList.find("div:last"));
+				if(sClassIsQuoted && BL.away.bIsAway)
+				{
+					//flashTitle
+					BL.flashTitle.flash();
+				}
 				i++;
 			}
 			BL.chat.scrollTo();
@@ -205,3 +211,58 @@ BL.chat = {
 	}
 
 };
+
+BL.flashTitle = {
+	reset:function(){
+		//start with a reset of current effect
+//		console.log('----START----');
+//		console.log(1);
+		clearInterval(BL.blinkTitle);
+//		console.log(2);
+		clearTimeout(BL.clearClearBlinkTitle);
+//		console.log(3);
+		BL.chat.obj.iUnreadMsg = 0;
+//		console.log(4);
+		//if document oldTitle is defined, set it back to document title
+
+		if(document.oldTitle){
+//			console.log(5, document.oldTitle);
+			setTimeout('document.title = document.oldTitle',2);
+		}
+//		console.log('----FIIIN----');
+	},
+	flash:function(){
+		BL.flashTitle.reset();
+
+		// store actual title
+		document.oldTitle = document.title;
+
+		// first set to see immediatly the modified title
+		document.title += ' (' + ++BL.chat.obj.iUnreadMsg + ')';
+
+		// flashing the title
+		BL.blinkTitle = setInterval(function()
+		{
+//			console.info('test');
+			if(document.title == document.oldTitle)
+			{
+				document.title += ' (' + BL.chat.obj.iUnreadMsg + ')';
+			}
+			else
+			{
+				document.title = document.oldTitle;
+			}
+		},1000);
+
+		BL.clearClearBlinkTitle = setTimeout(function()
+		{
+			clearInterval(BL.blinkTitle);
+		},7000)
+	}
+};
+
+BL.away = {
+	bIsAway:false,
+	iSince:0
+
+}
