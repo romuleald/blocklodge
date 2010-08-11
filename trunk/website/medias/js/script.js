@@ -24,6 +24,7 @@ $(window).bind('blur', function(e){
 
 $(window).bind('focus', function(e){
 	BL.away.bIsAway = false;
+	BL.chat.obj.iUnreadMsg = 0;
 	BL.flashTitle.reset();
 });
 

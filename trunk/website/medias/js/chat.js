@@ -215,21 +215,13 @@ BL.chat = {
 BL.flashTitle = {
 	reset:function(){
 		//start with a reset of current effect
-//		console.log('----START----');
-//		console.log(1);
 		clearInterval(BL.blinkTitle);
-//		console.log(2);
 		clearTimeout(BL.clearClearBlinkTitle);
-//		console.log(3);
-		BL.chat.obj.iUnreadMsg = 0;
-//		console.log(4);
-		//if document oldTitle is defined, set it back to document title
 
+		//if document oldTitle is defined, set it back to document title
 		if(document.oldTitle){
-//			console.log(5, document.oldTitle);
-			setTimeout('document.title = document.oldTitle',2);
+			document.title = document.oldTitle;
 		}
-//		console.log('----FIIIN----');
 	},
 	flash:function(){
 		BL.flashTitle.reset();
