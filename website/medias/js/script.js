@@ -1,6 +1,8 @@
 var SVNREVISION = '$Revision$';
 /* jquery 1.4.2 based */
 
+document.oldTitle = document.title; 
+
 $().ready(function()
 {
 	BL.sizeStructure();
