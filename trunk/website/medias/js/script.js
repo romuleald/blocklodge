@@ -1,12 +1,12 @@
 var SVNREVISION = '$Revision$';
 /* jquery 1.4.2 based */
 
-document.oldTitle = document.title; 
 
 $().ready(function()
 {
 	BL.sizeStructure();
 	BL.chat.init();
+	document.oldTitle = document.title;
 });
 
 $(window).resize(function()
