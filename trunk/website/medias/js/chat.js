@@ -109,7 +109,7 @@ BL.chat = {
 			success:function(){
 				//console.info('data', data);
 				//alert(sDataToSent);
-				BL.chat.refreshView(false);
+//				BL.chat.refreshView(false);
 				BL.chat.obj.bCanPost = true;
 				BL.chat.obj.JQoForm.fadeTo(100,1);
 			}
@@ -211,7 +211,8 @@ BL.chat = {
 	}
 
 };
-
+BL.blinkTitle = null;
+BL.clearClearBlinkTitle = null;
 BL.flashTitle = {
 	reset:function(){
 		clearInterval(BL.blinkTitle);
@@ -219,11 +220,10 @@ BL.flashTitle = {
 		document.title = document.oldTitle;
 	},
 	flash:function(){
-		//start with a reset of current effect
 		BL.flashTitle.reset();
 
 		// first set to see immediatly the modified title
-		document.title += ' (' + ++BL.chat.obj.iUnreadMsg + ')';
+		document.title = '(' + ++BL.chat.obj.iUnreadMsg + ') ' + document.oldTitle;
 
 		// flashing the title
 		BL.blinkTitle = setInterval(function()
@@ -231,7 +231,7 @@ BL.flashTitle = {
 //			console.info('test');
 			if(document.title == document.oldTitle)
 			{
-				document.title += ' (' + BL.chat.obj.iUnreadMsg + ')';
+				document.title = '(' + BL.chat.obj.iUnreadMsg + ') ' + document.oldTitle;
 			}
 			else
 			{
