@@ -109,7 +109,7 @@ BL.chat = {
 			success:function(){
 				//console.info('data', data);
 				//alert(sDataToSent);
-//				BL.chat.refreshView(false);
+				BL.chat.refreshView(false);
 				BL.chat.obj.bCanPost = true;
 				BL.chat.obj.JQoForm.fadeTo(100,1);
 			}
@@ -118,7 +118,7 @@ BL.chat = {
 	},
 	refreshView:function(bIsFirst){
 		clearTimeout(BL.chat.obj.timeOut);
-		//console.info('refresh');
+//		console.info('refresh');
 		BL.chat.obj.iRefreshTime = new Date();
 		var sUrl = (bIsFirst) ? 'ws/chat.php?html=true' : 'ws/chat.php';
 		$.ajax({
@@ -134,19 +134,26 @@ BL.chat = {
 
 	},
 	buildView:function(data, bIsHtml){
-		//actually html is build by php, after, php will send json and html will be build here
+		//first case, write HTML via inner
 		if(bIsHtml){
     	BL.chat.obj.JQoChatList.html(data);
 			// on recupere l'id du dernier message
 			BL.chat.obj.iLastId = parseInt(BL.chat.obj.JQoChatList.find("div:last")[0].id.split('chat')[1]);
 
 		}
+		//otherwise, DOM is injected
 		else
 		{
-			if(data == '' || data == '['){return;}
+			if(data == '' || data == '['){
+//			  console.info(data);
+				return false;
+			}
+//			console.info(data);
 
 			var JSONChat = eval(data);
 			if(JSONChat.length == 0){return;}
+			if(JSONChat[0].newMsg == false){return;}
+//			console.info(JSONChat);
 
 			var i = 0;
 			while(JSONChat.length > i)
@@ -161,7 +168,7 @@ BL.chat = {
 //				sTpl += JSONChat[i].id;
 				sTpl += ' <span class="date">à : ' + JSONChat[i].date + '</span></p>';
 				var sClassIsQuoted = (JSONChat[i].post.match(document.getElementById('user').value)) ? ' bold':'';
-				sTpl += '<p class="post' + sClassIsQuoted + '">' + JSONChat[i].post.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,'<a href="$1">$1</a>', JSONChat[i].post) + '</p>';
+				sTpl += '<p class="post' + sClassIsQuoted + '">' + JSONChat[i].post.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,'<a href="$1" onclick="window.open(this.href);return false;">$1</a>', JSONChat[i].post) + '</p>';
 				sTpl += '';
 				oDiv.innerHTML = sTpl;
 				$(oDiv).insertAfter(BL.chat.obj.JQoChatList.find("div:last"));
