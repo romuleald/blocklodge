@@ -13,11 +13,12 @@ function chatGetJson($lastId)
 	$result = $conx->query($sQuery);
 	if(!$result){
 		$mes_erreurs = $conx->errorInfo();
-		echo "Lecture impossible, code", $conx->errorCode(), $mes_erreurs[2];
+		echo "[{'error':'Error SQL'}]";
 	}
 	elseif($result->rowCount() == 0){
-		sleep(1);
-		return chatGetJson($lastId);		
+		echo "[{'newMsg':false}]";		
+//		sleep(1);
+//		return chatGetJson($lastId);
 	}
 	else
 	{
@@ -32,9 +33,10 @@ function chatGetJson($lastId)
 				$indexCol = 0;
 				foreach($row as $key => $val)
 				{
+					str_replace(array("\r", "\r\n", "\n"), ' ', $val);
 					echo "'" . $key . "'";
 					echo ':';
-					echo "'" . str_replace(array("\r", "\r\n", "\n"), ' ', $val) . "'";
+					echo "'" . $val . "'";
 					if(end($row) != $val)
 					{
 						echo ',';
@@ -55,13 +57,41 @@ function chatGetJson($lastId)
 
 }
 
+function chatGetHTML()
+{
+	$conx = conPDO();
+	$sQuery = "SELECT * FROM (SELECT * FROM `chat` ORDER BY `index` DESC LIMIT 30) AS pouet ORDER BY `index` ASC;";
+	$result = $conx->query($sQuery);
+	if(!$result){
+		$mes_erreurs = $conx->errorInfo();
+		echo "Lecture impossible, code", $conx->errorCode(), $mes_erreurs[2];
+	}
+	else
+	{
+		// if blank, any space will provoc bold
+		$bIsNamed = "untrucimpossiblearefairedansunpseudo654984-('";
+		if(isset($_COOKIE["user"]))
+		{
+			$bIsNamed = $_COOKIE["user"];
+		}
 
+		while($row = $result->fetchObject()){
+?>  <div class="padding" id="chat<?php echo $row->index;?>">
+		<p class="user">
+			<a class="pseudo"><?php echo $row->user;?></a>
+			<?php //echo $row["id"];?>
+		<span class="date">à : <?php echo $row->date;?></span>
+		</p>
+		<p class="post<?php echo preg_match("/\b$bIsNamed\b/i", $row->post) ? ' bold' : ''; ?>"><?php echo $row->post = preg_replace("@[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]@","<a href=\"\\0\" onclick=\"window.open(this.href)\">\\0</a>", stripslashes($row->post));?></p>
 
+	</div><?php
+		}
+	}
+	$result->closeCursor();
+	$conx = null;	
+}
 
-
-
-
-if(isset($_POST['id']))
+function chatPost()
 {
 	$conx = conPDO();
 	date_default_timezone_set('Europe/Paris');
@@ -76,50 +106,25 @@ if(isset($_POST['id']))
 	$result->closeCursor();
 	$conx = null;
 
-//	$result->closeCursor();
-//	$conx = null;
+}
 
+
+
+if(isset($_POST['id']))
+{
+	chatPost();
 }
 else{
 
-if(isset($_GET['html']))
-{
-	$conx = conPDO();
-	$sQuery = "SELECT * FROM (SELECT * FROM `chat` ORDER BY `index` DESC LIMIT 30) AS pouet ORDER BY `index` ASC;";
-	$result = $conx->query($sQuery);
-	if(!$result){
-		$mes_erreurs = $conx->errorInfo();
-		echo "Lecture impossible, code", $conx->errorCode(), $mes_erreurs[2];
-	}
-	else
+	if(isset($_GET['html']))
 	{
-		$bIsNamed = "untrucimpossiblearefairedansunpseudo654984-('";
-		if(isset($_COOKIE["user"]))
-		{
-			$bIsNamed = $_COOKIE["user"];
-		}
-
-		while($row = $result->fetchObject()){
-?>  <div class="padding" id="chat<?php echo $row->index;?>">
-		<p class="user">
-			<a class="pseudo"><?php echo $row->user;?></a>
-			<?php //echo $row["id"];?>
-		<span class="date">à : <?php echo $row->date;?></span>
-		</p>
-		<p class="post<?php echo preg_match("/\b$bIsNamed\b/i", $row->post) ? ' bold' : ''; ?>"><?php echo $row->post = preg_replace("@[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]@","<a href=\"\\0\">\\0</a>", stripslashes($row->post));?></p>
-
-	</div><?php
-		}
+		chatGetHTML();
 	}
-	$result->closeCursor();
-	$conx = null;
-}
 	elseif(isset($_GET['lastid']))
 	{
-
 		chatGetJson($_GET['lastid']);
 	}
 	else{
-echo '....';
+		echo "[{'newMsg':false}]";
 	}?>
 <?php } ?>
