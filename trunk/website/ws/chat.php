@@ -33,7 +33,7 @@ function chatGetJson($lastId)
 				$indexCol = 0;
 				foreach($row as $key => $val)
 				{
-					str_replace(array("\r", "\r\n", "\n"), ' ', $val);
+					$val = str_replace(array("\r", "\r\n", "\n"), ' ', $val);
 					echo "'" . $key . "'";
 					echo ':';
 					echo "'" . $val . "'";
@@ -96,7 +96,13 @@ function chatPost()
 	$conx = conPDO();
 	date_default_timezone_set('Europe/Paris');
 	$currentDate = date('Y-m-d H:i:s',time());
-	$sQuery = "INSERT INTO  `chat` (  `user` ,  `id` ,  `post` ,  `date` ) VALUES ('". $_POST['user'] . "', '" . $_POST['id'] . "', '" . htmlspecialchars(addslashes($_POST['post'])) . "', '" . $currentDate . "')";
+
+	$post = htmlspecialchars(addslashes($_POST['post']));
+//	$post = str_replace(array("\r", "\r\n", "\n"), " ", $post);
+//	$post = str_replace("<br /><br /><br />", "<br />", $post);
+//	$post = preg_replace("/<br \/><br \/><br \/>/", "<br /><br />", $post);
+
+	$sQuery = "INSERT INTO  `chat` (  `user` ,  `id` ,  `post` ,  `date` ) VALUES ('". $_POST['user'] . "', '" . $_POST['id'] . "', '" . $post . "', '" . $currentDate . "')";
 //	echo $sQuery;
 	$result = $conx->query($sQuery);
 	if(!$result){
