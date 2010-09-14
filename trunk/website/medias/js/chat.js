@@ -27,7 +27,8 @@ BL.chat = {
 		iLastId:0,
 		iRefreshTime:null,
 		timeOut:null,
-		onlineTimeOut:null,
+//		onlineTimeOut:null,
+		iNbrRefreshWhos:0,
 		iUnreadMsg:0,
 		oPostedMsg:{'iPos':0,'aMsgs':['']}
 	},
@@ -130,7 +131,7 @@ BL.chat = {
 			}
 		});
 		BL.chat.refreshView(true);
-		BL.chat.isOnline();
+//		BL.chat.isOnline();
 
 	},
 	sendChat:function(oData){
@@ -144,8 +145,7 @@ BL.chat = {
 			type:"POST",
 			data:oData.serialize(),
 			success:function(){
-				//console.info('data', data);
-				//alert(sDataToSent);
+
 				BL.chat.refreshView(false);
 				BL.chat.obj.bCanPost = true;
 				BL.chat.obj.JQoForm.fadeTo(100,1);
@@ -155,7 +155,7 @@ BL.chat = {
 	},
 	refreshView:function(bIsFirst){
 		clearTimeout(BL.chat.obj.timeOut);
-//		console.info('refresh');
+
 		BL.chat.obj.iRefreshTime = new Date();
 		var sUrl = (bIsFirst) ? 'ws/chat.php?html=true' : 'ws/chat.php';
 		$.ajax({
@@ -165,6 +165,11 @@ BL.chat = {
 				BL.chat.buildView(data, bIsFirst);
 				BL.chat.scrollTo();
 				BL.chat.obj.timeOut = setTimeout(function(){BL.chat.refreshView(false)},2000);
+				if(BL.chat.obj.iNbrRefreshWhos-- == 0)
+				{
+					BL.chat.isOnline();
+					BL.chat.obj.iNbrRefreshWhos = 5;
+				}
 	      $('#timerTracker').find('.gaugeTT').animate({width:(new Date() - BL.chat.obj.iRefreshTime) /10 + '%'},100);
 			}
 		});
@@ -182,15 +187,12 @@ BL.chat = {
 		else
 		{
 			if(data == '' || data == '['){
-//			  console.info(data);
 				return false;
 			}
-//			console.info(data);
 
 			var JSONChat = eval(data);
 			if(JSONChat.length == 0){return;}
-			if(JSONChat[0].newMsg == false){return;}
-//			console.info(JSONChat);
+			if(!JSONChat[0].newMsg){return;}
 
 			var i = 0;
 			while(JSONChat.length > i)
@@ -217,7 +219,7 @@ BL.chat = {
 				i++;
 			}
 			BL.chat.scrollTo();
-			//console.info($(sTpl));
+
 			BL.chat.obj.iLastId = JSONChat[JSONChat.length-1].index;
 		}
 
@@ -231,23 +233,15 @@ BL.chat = {
 
 	},
 	isOnline:function(){
-		clearTimeout(BL.chat.obj.onlineTimeOut);
+//		clearTimeout(BL.chat.obj.onlineTimeOut);
 		$.ajax({
 			url:"ws/whosonline.php",
 			type:"POST",
 			data:BL.chat.obj.JQoForm.serialize(),
-			success:function(){
+			success:function(data){
 
-				$.ajax({
-					url:"ws/whosonline.php",
-					type:"GET",
-					success:function(data){
-	        	$('#frienBar').find('.friendList').html(data);
-						BL.chat.obj.onlineTimeOut = setTimeout(BL.chat.isOnline,15000);
-
-					}
-
-				});
+				$('#frienBar').find('.friendList').html(data);
+//				BL.chat.obj.onlineTimeOut = setTimeout(BL.chat.isOnline,15000);
 
 			}
 		});

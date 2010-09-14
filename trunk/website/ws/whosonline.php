@@ -1,9 +1,12 @@
 <?php
+
+
+function postGetOnline()
+{
+
 	include "../inc/tehbd.php";
 	$conx = conPDO();
 
-if(isset($_POST['id']))
-{
 	$chatUserName = strip_tags(addslashes($_POST['user']));
 	$chatUserId = $_POST['id'];
 	date_default_timezone_set('Europe/Paris');
@@ -18,12 +21,7 @@ if(isset($_POST['id']))
 		echo "Lecture impossible, code", $conx->errorCode(), $mes_erreurs[2];
 	}
 
-	$result->closeCursor();
-	$conx = null;
 
-}
-else
-{
 	$sQuery = "SELECT * FROM `whosonline` WHERE `date` > '" . (time()-300) . "' ORDER BY `date` DESC LIMIT 30;";
 	$result = $conx->query($sQuery);
 	if(!$result){
@@ -48,8 +46,18 @@ else
 			}
 		}
 	}
+
+
+
+
 	$result->closeCursor();
 	$conx = null;
 
+}
+
+if(isset($_POST['id']))
+{
+
+	postGetOnline();
 }
 ?>
