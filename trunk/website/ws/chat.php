@@ -3,6 +3,8 @@
 //	$link = mysql_connect('127.0.0.1', $sUsr, $sPsswrd);
 //	$db = mysql_select_db($sDbName, $link);
 
+//TODO: faire des foncitons pour que lorsque l'on fasse un post, soit renvoyé directement les nouveaux messages (éviter la double requête)
+
 error_reporting(0);
 set_time_limit(60);
 function chatGetJson($lastId)

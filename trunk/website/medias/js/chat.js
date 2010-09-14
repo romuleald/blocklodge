@@ -15,6 +15,9 @@ l'user arrive
 ** une fois stocké, force du refresh du chat
 
 */
+/**
+ * BL namespace
+ */
 
 BL.chat = {
 	obj:{
@@ -134,6 +137,10 @@ BL.chat = {
 //		BL.chat.isOnline();
 
 	},
+	/**
+	 *
+	 * @param oData object
+	 */
 	sendChat:function(oData){
 		if(!BL.chat.obj.bCanPost){return}
 		BL.chat.obj.bCanPost = false;
@@ -153,6 +160,10 @@ BL.chat = {
 		})
 
 	},
+	/**
+	 *
+	 * @param bIsFirst bolean
+	 */
 	refreshView:function(bIsFirst){
 		clearTimeout(BL.chat.obj.timeOut);
 
@@ -173,8 +184,12 @@ BL.chat = {
 	      $('#timerTracker').find('.gaugeTT').animate({width:(new Date() - BL.chat.obj.iRefreshTime) /10 + '%'},100);
 			}
 		});
-
 	},
+	/**
+	 *
+	 * @param data string
+	 * @param bIsHtml bolean
+	 */
 	buildView:function(data, bIsHtml){
 		//first case, write HTML via inner
 		if(bIsHtml){
@@ -192,7 +207,7 @@ BL.chat = {
 
 			var JSONChat = eval(data);
 			if(JSONChat.length == 0){return;}
-			if(!JSONChat[0].newMsg){return;}
+			if(JSONChat[0].newMsg == false){return;}
 
 			var i = 0;
 			while(JSONChat.length > i)
@@ -259,7 +274,7 @@ BL.flashTitle = {
 	},
 	flash:function(){
 		BL.flashTitle.reset();
-
+		//TODO: des bugs aléatoire d'affichage à corriger
 		// first set to see immediatly the modified title
 		document.title = '(' + ++BL.chat.obj.iUnreadMsg + ') ' + document.oldTitle;
 
@@ -288,4 +303,4 @@ BL.away = {
 	bIsAway:false,
 	iSince:0
 
-}
+};

@@ -1,4 +1,6 @@
 <?php
+
+// TODO: en faire un appel de la class user
 	include "../inc/tehbd.php";
 	$link = mysql_connect('db2452.1and1.fr', $sUsr, $sPsswrd);
 	$db = mysql_select_db($sDbName, $link);
