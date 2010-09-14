@@ -98,9 +98,9 @@ BL.chat = {
 			if(BL.chat.obj.oPostedMsg.aMsgs.length == 0){return}			
 			if(e.ctrlKey){
 				iPos =BL.chat.obj.oPostedMsg.iPos;
-				if(e.keyCode == 38)
+				if(e.keyCode == 40)
 				{
-					//up
+					//down
 //					console.info(BL.chat.obj.oPostedMsg.iPos, '++');
 
 					BL.chat.obj.oPostedMsg.iPos++;
@@ -113,9 +113,9 @@ BL.chat = {
 					$(e.target).val(BL.chat.obj.oPostedMsg.aMsgs[BL.chat.obj.oPostedMsg.iPos])
 
 				}
-				if(e.keyCode == 40)
+				if(e.keyCode == 38)
 				{
-					//down
+					//up
 //					console.info(BL.chat.obj.oPostedMsg.iPos, '--');
 
 					BL.chat.obj.oPostedMsg.iPos--;
