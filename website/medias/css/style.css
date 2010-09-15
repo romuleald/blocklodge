@@ -17,7 +17,7 @@ a:hover{text-decoration:none;color:#555;}
 html{height:100%;}
 #site{margin:0 5px;}
 #top{}
-#top p.legend {font-size:1.7em;}
+#top p.legend {font-size:1.4em;margin-left:15px;}
 #title{}
 #notification{padding:2px 5px;background:#999;border:solid 1px #BBB;text-align:right;}
 #forum{width:25%;background:#090909;border:solid 1px #BBB;}
