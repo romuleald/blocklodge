@@ -171,6 +171,7 @@ BL.chat = {
 		var sUrl = (bIsFirst) ? 'ws/chat.php?html=true' : 'ws/chat.php';
 		$.ajax({
 			url:sUrl,
+			cache:false,
 			data:{lastid:BL.chat.obj.iLastId},
 			success:function(data){
 				BL.chat.buildView(data, bIsFirst);
