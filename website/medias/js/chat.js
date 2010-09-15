@@ -192,6 +192,7 @@ BL.chat = {
 	 */
 	buildView:function(data, bIsHtml){
 		//first case, write HTML via inner
+		//console.info(data.substr(0,10));
 		if(bIsHtml){
     	BL.chat.obj.JQoChatList.html(data);
 			// on recupere l'id du dernier message
@@ -201,7 +202,7 @@ BL.chat = {
 		//otherwise, DOM is injected
 		else
 		{
-			if(data == '' || data == '['){
+			if(data == '' || data == '[' || data.substr(0,3) == '<br'){
 				return false;
 			}
 
