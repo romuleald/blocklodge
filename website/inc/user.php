@@ -13,21 +13,53 @@ class User {
 	 * @param email string
 	 * @param pseudo string
 	 * @param mdp string
-	 * @param avatar string
 	 * @param desc string
-	 * @return user created
+	 * @param birth time
+	 * @return boolean
 	 * */
-	function create($email, $pseudo, $mdp, $avatar, $desc){
-		// TODO: créer un utilisateur
+	public function create($email, $pseudo, $mdp, $desc, $birth, $parent){
+		// TODO: creer un utilisateur
+
+		include "../inc/tehbd.php";
+		$conx = conPDO();
+
+		date_default_timezone_set('Europe/Paris');
+//		$currentDate = date('Y-m-d H:i:s',time());
+		$microtime = time();
+
+		$sQuery = "INSERT INTO  `user` ( `user`, `email`, `mdp`, `avatar`, `birth`, `parent`) VALUES ('". $pseudo . "', '" . $email . "', '" . $mdp . "', '" . $desc . "', '" . $birth . "', '" . $parent . "')";
+
+		$result = $conx->query($sQuery);
+		if(!$result){
+//			$mes_erreurs = $conx->errorInfo();
+			header("HTTP/1.0 403 Forbidden");
+			echo "[{'statut':'error','msg':'email dÃ©jÃ  existant'}]";
+			return false;
+		}
+		else{
+			return true;
+		}
+
+
+
 	}
 
 	/**
 	 * @param  $email
 	 * @param  $mdp
-	 * @return void
+	 * @return loginSend
 	 */
-	function login($email, $mdp){
-		// TODO: loggué un utilisateur
+	function loginTest($email, $mdp){
+		// TODO: test un utilisateur en base
+		
+		$createUser = new User();
+		return $createUser->loginSend($email, $mdp);
+
+	}
+
+	function loginSend($email, $mdp){
+		// TODO: loggue un utilisateur,
+
 
 	}
 	/**
@@ -57,7 +89,7 @@ class User {
 	 * @return void
 	 *
 	 */
-	function modifyPsw($email, $mdp){
+	function modifyPsw($id, $email, $mdp, $newsMdp){
 		// TODO: modifier un utilisateur
 
 	}

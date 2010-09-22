@@ -5,7 +5,8 @@ var SVNREVISION = '$Revision$';
 $().ready(function()
 {
 	BL.sizeStructure();
-	BL.chat.init();
+	BL.user.init();
+	//BL.chat.init();
 	document.oldTitle = document.title;
 });
 
