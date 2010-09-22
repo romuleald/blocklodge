@@ -1,0 +1,78 @@
+/* $Revision$ */
+
+/*DEV:currently hidden*/
+#forum,#notification1{visibility:hidden;}
+/* base */
+body{font:normal normal  10px/1.5em 'Nobile', arial, serif;color:#FFF;padding:0;margin:0;}
+.em12,p, li{font-size:1.2em;}
+li li, li p{font-size:1em;}
+p,li,ul,ol,dl,dd,dt,form,fieldset{margin:0;padding:0;}
+ul,ol{list-style:none;}
+
+a{color:#666;}
+a:hover{text-decoration:none;color:#555;}
+
+/* struct */
+#blacklodge{background:#000;height:100%;}
+html{height:100%;}
+#site{margin:0 5px;}
+#top{}
+#top p.legend {font-size:1.4em;margin-left:15px;}
+#title{}
+#notification{padding:2px 5px;background:#999;border:solid 1px #BBB;text-align:right;}
+#forum{width:25%;background:#090909;border:solid 1px #BBB;}
+#core{width:60%;background:#090909;border:solid 1px #BBB;}
+
+
+#chat{}
+#chatList{overflow:auto;border-top:solid 1px;}
+@media only screen and (max-width: 480px), only screen and (max-device-width: 480px) {
+	#chatList{overflow:visible;height:auto!important}
+}
+#chatList div{border-bottom:solid 1px;background:#111;}
+#chatList .user{color:#999;}
+#chatList .pseudo{color:#BBB;cursor:pointer;}
+#chatList .post{margin:5px 0;word-break: break-all;}
+#chatList .date{font-size:.8em;}
+
+
+#profil{}
+#messages{}
+#frienBar{width:12%;background:#090909;border:solid 1px #BBB;}
+
+/* time tracker */
+#timerTracker{position:absolute;top:10px;right:10px;text-align:right}
+#timerTracker .gaugeTT{position:absolute;right:0;background:red;width:0;overflow:hidden;}
+#timerTracker .inTimeTracker{width:100px;height:1px;background:-webkit-gradient(
+    linear,
+    left top,
+    right top,
+    color-stop(0, rgb(0,245,37)),
+    color-stop(0.25, rgb(217,255,0)),
+    color-stop(0.5, rgb(255,191,28)),
+    color-stop(0.75, rgb(255,140,0)),
+    color-stop(1, rgb(255,0,0))
+);
+background:-moz-linear-gradient(
+    left bottom,
+    rgb(0,245,37) 0%,
+    rgb(217,255,0) 25%,
+    rgb(255,191,28) 50%,
+    rgb(255,140,0) 75%,
+    rgb(255,0,0) 100%
+)
+
+}
+
+/* context */
+.forumItem{margin:5px 0;}
+.friendList{max-height:90%;overflow:auto;}
+
+/* helpme */
+
+.iBlk{display:inline-block;}
+.halfSize{width:49%;}
+.vaM{vertical-align:middle;}
+.vaT{vertical-align:top;}
+.bold{font-weight:bold;}
+.padding{padding:10px;}
