@@ -19,7 +19,46 @@ class User {
 	 * */
 	public function create($email, $pseudo, $mdp, $desc, $birth, $parent){
 		// TODO: creer un utilisateur
+		if(empty($email))
+		{
+			//error, mandatory
+			header("HTTP/1.0 403 Forbidden");
+			echo "[{'statut':'error','msg':'email manquant'}]";
+		}
+		if(empty($pseudo))
+		{
+			//error, mandatory
+			header("HTTP/1.0 403 Forbidden");
+			echo "[{'statut':'error','msg':'pseudo manquant'}]";
+		}
+		if(empty($mdp))
+		{
+			//error, mandatory
+			header("HTTP/1.0 403 Forbidden");
+			echo "[{'statut':'error','msg':'mot de passe oublié'}]";
 
+		}
+		if(empty($desc))
+		{
+			//ok
+		}
+		if(empty($birth))
+		{
+			//error, must be 18+
+			header("HTTP/1.0 403 Forbidden");
+			echo "[{'statut':'error','msg':'âge manquant'}]";
+		}
+		elseif($birth > time() - 18 * 365*24*60*60)
+		{
+			//error, must be 18+
+			header("HTTP/1.0 403 Forbidden");
+			echo "[{'statut':'error','msg':'trop jeune'}]";
+		}
+		if(empty($parent))
+		{
+			//error, mandatory
+		}
+		
 		include "../inc/tehbd.php";
 		$conx = conPDO();
 
@@ -47,21 +86,23 @@ class User {
 	/**
 	 * @param  $email
 	 * @param  $mdp
-	 * @return loginSend
+	 * @return boolean
 	 */
 	function loginTest($email, $mdp){
 		// TODO: test un utilisateur en base
 		
-		$createUser = new User();
-		return $createUser->loginSend($email, $mdp);
+		return true;//false
 
 	}
 
-	function loginSend($email, $mdp){
-		// TODO: loggue un utilisateur,
+	function loginCookies($email, $mdp){
+		// TODO: ecrit le cookie
+		// si le cookies est écrit, return true, sinon false
 
 
 	}
+
+
 	/**
 	 * @param  $id
 	 * @return void
