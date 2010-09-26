@@ -14,6 +14,12 @@ BL.user = {
 			e.stopPropagation();
 			return false;
 		});
+		$('#login').submit(function(e)
+		{
+			BL.user.login($(this).serialize());
+			e.stopPropagation();
+			return false;
+		});
 	},
 	/**
 	 *
@@ -28,7 +34,7 @@ BL.user = {
 	{
 		
 		var sUrl = 'ws/user.php';
-		var sData = sParam + '&ctn=crt';
+		var sData = sParam;
 		console.info(sData);
 
 		$.ajax({
@@ -37,7 +43,7 @@ BL.user = {
 			cache:false,
 			data:sData,
 			success:function(sParam){
-			 BL.user.login()
+//			 BL.user.login()
 			},
 			error:function(sData){
 				console.error(sData);
@@ -47,11 +53,32 @@ BL.user = {
 	},
 	/**
 	 *
-	 * @param sEmail
-	 * @param sMdp
+	 * @param sParam  a string with all param containing these:
+	 ** sEmail
+	 ** sMdp
 	 */
-	login:function(sEmail, sMdp)
+	login:function(sParam)
 	{
+		var sUrl = 'ws/user.php';
+		var sData = sParam;
+		console.info(sData);
+
+		$.ajax({
+			url:sUrl,
+			type:'POST',
+			cache:false,
+			data:sData,
+			dataType:'json',
+			success:function(response){
+			 //BL.user.login()
+				console.info(response);
+				$(document).trigger('login');
+
+			},
+			error:function(xhr, ajaxOptions, thrownError){
+				console.error(xhr, ajaxOptions, thrownError);
+			}
+		});
 		
 	},
 	/**

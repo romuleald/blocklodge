@@ -35,7 +35,7 @@ BL.chat = {
 		iUnreadMsg:0,
 		oPostedMsg:{'iPos':0,'aMsgs':['']}
 	},
-	init:function(){
+	init:function(sUser){
 		BL.chat.obj.JQoForm = $('#chatForm');
 		BL.chat.obj.JQoChats = $('#chat');
 		BL.chat.obj.JQoChatList = $('#chatList');
