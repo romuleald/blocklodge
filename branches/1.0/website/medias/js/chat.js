@@ -272,6 +272,7 @@ BL.flashTitle = {
 	reset:function(){
 		clearInterval(BL.blinkTitle);
 		clearTimeout(BL.clearClearBlinkTitle);
+		document.title = "";
 		document.title = document.oldTitle;
 	},
 	flash:function(){
