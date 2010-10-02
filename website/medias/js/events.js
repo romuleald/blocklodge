@@ -33,6 +33,7 @@ $(window).bind('focus', function(){
 	BL.chat.obj.iUnreadMsg = 0;
 	BL.flashTitle.reset();
 });
+
 $(document).bind('login', function(){
 	BL.chat.init();
 });

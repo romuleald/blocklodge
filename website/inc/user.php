@@ -10,6 +10,7 @@
 
 require_once "../inc/tehbd.php";
 class User {
+	var $uid;
 	/**
 	 * @param email string
 	 * @param pseudo string
@@ -94,7 +95,6 @@ class User {
 	 * @return boolean
 	 */
 	function loginTest($email, $mdp){
-		// TODO: test un utilisateur en base
 		if(empty($email))
 		{
 			//error, mandatory
@@ -114,7 +114,7 @@ class User {
 
 		$conx = conPDO();
 
-		$sQuery = "SELECT `email`, `mdp` FROM `user` WHERE `email` = '".$email."' AND `mdp` = '".$mdp."';";
+		$sQuery = "SELECT `email`, `mdp`, `id` FROM `user` WHERE `email` = '".$email."' AND `mdp` = '".$mdp."';";
 //		echo $sQuery;
 //		exit;
 		$result = $conx->query($sQuery);
@@ -124,6 +124,7 @@ class User {
 			return false;
 		}
 		else{
+			$this->uid = $result->fetchObject()->id;
 			return true;
 		}
 
@@ -132,8 +133,7 @@ class User {
 	 * @param  $email
 	 * @return bool
 	 */
-	function loginSetCookies($email){
-		// TODO: ecrit le cookie
+	function loginSetCookies(){
 		// si le cookies est écrit, return true, sinon false
 		// pour securiser l'auth du cookies, on récupère l'email + time et on le hash
 		// ensuite on le stocke dans une table d'authentification qui aura la colone "hash" et la colone "expire"
@@ -141,12 +141,14 @@ class User {
 		//on insere la personne en SQL
 		$conx = conPDO();
 
-		$hash = hash('sha256', $email + "bl");
+		$uid = $this->uid;
+		$ip = $_SERVER["REMOTE_ADDR"];
+		$hash = hash('sha256', $uid . $ip . "bl");
 		$expire = time()+60*60*24*30;
 
 //		echo $hash, $expire;
 
-		$sQuery = "INSERT INTO  `auth` (  `hash` ,  `expire` ) VALUES ('". $hash . "', '" . $expire . "')  ON DUPLICATE KEY UPDATE expire='" . $expire . "'";
+		$sQuery = "INSERT INTO  `auth` (  `hash`, `expire`, `id`, `ip` ) VALUES ('". $hash . "', '" . $expire . "', '" . $uid . "', '" . $ip . "')  ON DUPLICATE KEY UPDATE expire='" . $expire . "'";
 		$result = $conx->query($sQuery);
 		if(!$result){
 			header("HTTP/1.0 403 Forbidden");
@@ -160,28 +162,25 @@ class User {
 
 
 	}
-
-	function loginGetCookies($hash){
-		// TODO: on fait mather la table auth avec le cookies
+	function loginGetCookies(){
 		// si le cookies est écrit, return true, sinon false
 		// pour securiser l'auth du cookies, on récupère l'email + time et on le hash
 		// ensuite on le stocke dans une table d'authentification qui aura la colone "hash" et la colone "expire"
 
-		exit;
-		
+		$hash = $_COOKIE["auth"];
+
 		//on insere la personne en SQL
 		$conx = conPDO();
+		$sQuery = "SELECT `hash` FROM `auth` WHERE `hash` = '".$hash."';";
 
-		$sQuery = "INSERT INTO  `auth` (  `hash` ,  `expire` ) VALUES ('". $email . "', '" . $chatUserId . "', '" . $microtime . "')  ON DUPLICATE KEY UPDATE date='" . $microtime . "'";
-		echo $sQuery;
 		$result = $conx->query($sQuery);
-		if(!$result){
-			header("HTTP/1.0 403 Forbidden");
-			return false;
+		if($result->rowCount() == 1){
+			session_start();
+			$_SESSION['auth'] = $hash;
+			return true;
 		}
 		else{
-			//on set le cookie si c'est bon
-			return setcookie("auth", '', time()+60*60*24*30, "/");
+			return false;
 		}
 
 
@@ -194,7 +193,7 @@ class User {
 	 */
 	function logout($id){
 		// TODO: Supprime la connexion d'un utilisateur
-
+		session_unset();
 	}
 	/**
 	 * @param  $id

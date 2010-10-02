@@ -8,6 +8,7 @@
 BL.user = {
 	init:function()
 	{
+		BL.user.sendCookies();
 		$('#create').submit(function(e)
 		{
 			BL.user.create($(this).serialize());
@@ -80,6 +81,37 @@ BL.user = {
 			}
 		});
 		
+	},
+	sendCookies:function()
+	{
+		var sUrl = 'ws/user.php';
+		var sData = {'ctn':'cks'};
+
+		$.ajax({
+			url:sUrl,
+			type:'POST',
+			cache:false,
+			data:sData,
+			dataType:'json',
+			success:function(response){
+			 //BL.user.login()
+				console.info(response[0]);
+				if(response[0].msg)
+				{
+					console.info('oui');
+					$(document).trigger('login');
+				}
+				else{
+					console.info('non');
+					$(document).trigger('needLogin');
+				}
+
+			},
+			error:function(xhr, ajaxOptions, thrownError){
+				console.error(xhr, ajaxOptions, thrownError);
+			}
+		});
+
 	},
 	/**
 	 *

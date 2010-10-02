@@ -46,10 +46,10 @@ if(isset($_POST['ctn']))
 	}
 	if($_POST['ctn'] == 'lgn')
 	{
-		$createUser = new User();
-		if($createUser->loginTest($email, $mdp))
+		$login = new User();
+		if($login->loginTest($email, $mdp))
 		{
-			if($createUser->loginSetCookies($email, $mdp))
+			if($login->loginSetCookies($email, $mdp))
 			{
 				echo '[{"statut":"login","msg":true}]';
 			}
@@ -65,6 +65,18 @@ if(isset($_POST['ctn']))
 		}
 	}
 
+	if($_POST['ctn'] == 'cks')
+	{
+		$getCookies = new User();
+		if($getCookies->loginGetCookies())
+		{
+
+			echo '[{"statut":"cookies","msg":true}]';
+		}
+		else{
+			echo '[{"statut":"cookies","msg":false}]';
+		}
+	}
 }
 else{
 	header("HTTP/1.0 403 Forbidden");
