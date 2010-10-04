@@ -44,6 +44,7 @@ BL.chat = {
 		BL.chat.obj.JQoFormTxtarea.focus();
 
 		$('#user').val(BL.user.info.pseudo);
+		$('#uid').val(BL.user.info.uid);
 
 		BL.chat.obj.JQoForm.submit(function(e)
 		{
