@@ -6,21 +6,37 @@
  * To change this template use File | Settings | File Templates.
  */
 BL.user = {
+	info:{'pseudo':'','email':'','avatar':'','uid':''},
+	obj:{
+		oCreate:null,
+		oModify:null,
+		oLogout:null,
+		oModifyPsw:null,
+		oLogin:null
+	},
+	/**
+	 *
+	 */
 	init:function()
 	{
 		BL.user.sendCookies();
-		$('#create').submit(function(e)
+
+		BL.user.obj.oCreate = $('#create');
+		BL.user.obj.oCreate.submit(function(e)
 		{
 			BL.user.create($(this).serialize());
 			e.stopPropagation();
 			return false;
 		});
-		$('#login').submit(function(e)
+
+		BL.user.obj.oLogin = $('#login');
+		BL.user.obj.oLogin.live('submit',function(e)
 		{
 			BL.user.login($(this).serialize());
 			e.stopPropagation();
 			return false;
 		});
+
 	},
 	/**
 	 *
@@ -98,6 +114,7 @@ BL.user = {
 				console.info(response[0]);
 				if(response[0].msg)
 				{
+					BL.user.info = response[0].user;
 					console.info('oui');
 					$(document).trigger('login');
 				}

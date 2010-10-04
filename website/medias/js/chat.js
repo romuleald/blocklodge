@@ -35,7 +35,7 @@ BL.chat = {
 		iUnreadMsg:0,
 		oPostedMsg:{'iPos':0,'aMsgs':['']}
 	},
-	init:function(sUser){
+	init:function(){
 		BL.chat.obj.JQoForm = $('#chatForm');
 		BL.chat.obj.JQoChats = $('#chat');
 		BL.chat.obj.JQoChatList = $('#chatList');
@@ -43,7 +43,7 @@ BL.chat = {
 
 		BL.chat.obj.JQoFormTxtarea.focus();
 
-		$('#user').val($.cookie('user'));
+		$('#user').val(BL.user.info.pseudo);
 
 		BL.chat.obj.JQoForm.submit(function(e)
 		{

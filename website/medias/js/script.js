@@ -13,10 +13,21 @@ BL.sizeStructure = function()
 };
 
 
-if(!console){
-	var console = {
-		log:function(){},
-		info:function(){},
-		dir:function(){}
+BL.dbg = {
+	enabled:true,
+	log:function(){
+		if(BL.dbg.enabled){
+			console.log(arguments)
+		}
+	},
+	info:function(){
+		if(BL.dbg.enabled){
+			console.info(arguments)
+		}
+	},
+	dir:function(){
+		if(BL.dbg.enabled){
+			console.dir(arguments)
+		}
 	}
-}
+};

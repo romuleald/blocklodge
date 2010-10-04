@@ -2,7 +2,7 @@
 session_start();
 if(isset($_SESSION['auth']) != $_COOKIE["auth"])
 {
-	echo '[{"statut":"error","msg":"need login"}]';
+	echo '[{"statut":"error","msg":"need login"},{' . $_SESSION['auth'] . ':' . $_COOKIE["auth"] . '}]';
 }
 else{
 

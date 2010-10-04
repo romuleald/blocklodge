@@ -156,6 +156,33 @@ html {
 	background: -moz-linear-gradient(left bottom, rgb(0, 245, 37) 0%, rgb(217, 255, 0) 25%, rgb(255, 191, 28) 50%, rgb(255, 140, 0) 75%, rgb(255, 0, 0) 100%)
 }
 
+/* popin */
+#mask{
+	display:none;
+	position:fixed;
+	top:0;
+	height:100%;
+	width:100%;
+	opacity:0;
+	background:#000;
+}
+#popin{
+	/*display:none;*/
+	position:fixed;
+	top:-50%;
+	width:500px;
+	left:50%;
+	margin-left:-250px;
+}
+.popin{
+	background:#333;
+	border:solid 1px #222;
+	border-radius:10px;
+	-webkit-box-shadow: 0 0 100px #333;
+}
+.popin .content{
+	padding:10px;
+}
 /* context */
 .forumItem {
 	margin: 5px 0;
