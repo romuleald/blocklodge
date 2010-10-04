@@ -8,9 +8,14 @@
  * @class User
  */
 
+session_start();
+
 require_once "../inc/tehbd.php";
 class User {
 	var $uid;
+	var $pseudo;
+	var $email;
+	var $avatar;
 	/**
 	 * @param email string
 	 * @param pseudo string
@@ -51,26 +56,26 @@ class User {
 		if(empty($birth))
 		{
 			//error, must be 18+
-//			header("HTTP/1.0 403 Forbidden");
-//			echo '[{"statut":"error","msg":"âge manquant"}]';
-//			return false;
-//			exit;
+			//			header("HTTP/1.0 403 Forbidden");
+			//			echo '[{"statut":"error","msg":"âge manquant"}]';
+			//			return false;
+			//			exit;
 		}
 		elseif($birth > time() - 18 * 365*24*60*60)
 		{
 			//error, must be 18+
-//			header("HTTP/1.0 403 Forbidden");
-//			echo '[{"statut":"error","msg":"trop jeune"}]';
-//			return false;
+			//			header("HTTP/1.0 403 Forbidden");
+			//			echo '[{"statut":"error","msg":"trop jeune"}]';
+			//			return false;
 		}
 		if(empty($parent))
 		{
 			//error, mandatory
 			//TODO lien de parente
-//			return false;
-//			exit;
+			//			return false;
+			//			exit;
 		}
-		
+
 		$conx = conPDO();
 
 		$sQuery = "INSERT INTO  `user` ( `user`, `email`, `mdp`, `avatar`, `birth`, `parent`) VALUES ('". $pseudo . "', '" . $email . "', '" . $mdp . "', '" . $desc . "', '" . $birth . "', '" . $parent . "')";
@@ -114,28 +119,35 @@ class User {
 
 		$conx = conPDO();
 
-		$sQuery = "SELECT `email`, `mdp`, `id` FROM `user` WHERE `email` = '".$email."' AND `mdp` = '".$mdp."';";
+		$result = $conx->prepare("SELECT `email`, `mdp`, `id`, `user`, `avatar` FROM `user` WHERE `email` = '".$email."' AND `mdp` = '".$mdp."';");
+		$result->execute();
+
+//		$sQuery = "SELECT `email`, `mdp`, `id`, `user`, `avatar` FROM `user` WHERE `email` = '".$email."' AND `mdp` = '".$mdp."';";
 //		echo $sQuery;
-//		exit;
-		$result = $conx->query($sQuery);
-		if(!$result){
-//			$mes_erreurs = $conx->errorInfo();
+//		$result = $conx->query($sQuery);
+		if($result->rowCount() == 0){
+			//			$mes_erreurs = $conx->errorInfo();
 			header("HTTP/1.0 403 Forbidden");
 			return false;
 		}
 		else{
-			$this->uid = $result->fetchObject()->id;
+			$result = $result->fetch(PDO::FETCH_OBJ);
+			$this->setUser(
+				$result->id,
+				$result->email,
+				$result->user,
+				$result->avatar
+			);
 			return true;
 		}
 
 	}
 	/**
-	 * @param  $email
 	 * @return bool
 	 */
 	function loginSetCookies(){
 		// si le cookies est écrit, return true, sinon false
-		// pour securiser l'auth du cookies, on récupère l'email + time et on le hash
+		// pour securiser l'auth du cookies, on récupère l'uid + l'ip + 'bl' et on le hash
 		// ensuite on le stocke dans une table d'authentification qui aura la colone "hash" et la colone "expire"
 
 		//on insere la personne en SQL
@@ -157,6 +169,7 @@ class User {
 		else{
 			//on set le cookie si c'est bon
 			setcookie("auth", $hash, $expire, "/");
+			$this->setAuth($hash);
 			return true;
 		}
 
@@ -167,25 +180,50 @@ class User {
 		// pour securiser l'auth du cookies, on récupère l'email + time et on le hash
 		// ensuite on le stocke dans une table d'authentification qui aura la colone "hash" et la colone "expire"
 
-		$hash = $_COOKIE["auth"];
+		if(isset($_COOKIE["auth"])){
+			$hash = $_COOKIE["auth"];
 
-		//on insere la personne en SQL
-		$conx = conPDO();
-		$sQuery = "SELECT `hash` FROM `auth` WHERE `hash` = '".$hash."';";
+			//on insere la personne en SQL
+			$conx = conPDO();
+			$sQuery = "SELECT `hash` FROM `auth` WHERE `hash` = '".$hash."';";
 
-		$result = $conx->query($sQuery);
-		if($result->rowCount() == 1){
-			session_start();
-			$_SESSION['auth'] = $hash;
-			return true;
+			$result = $conx->query($sQuery);
+			if($result->rowCount() == 1){
+				$this->setAuth($hash);
+				return true;
+			}
+			else{
+				return false;
+			}
+
 		}
 		else{
 			return false;
 		}
 
+	}
+	/**
+	 * @param  $hash
+	 * @return void
+	 */
+	function setAuth($hash){
+		$_SESSION['auth'] = $hash;
+	}
+	/**
+	 * @param  $uid
+	 * @param  $email
+	 * @param  $pseudo
+	 * @param  $avatar
+	 * @return void
+	 */
+	function setUser($uid, $email, $pseudo, $avatar){
+
+		$_SESSION['uid'] = $uid;
+		$_SESSION['email'] = $email;
+		$_SESSION['pseudo'] = $pseudo;
+		$_SESSION['avatar'] = $avatar;
 
 	}
-
 
 	/**
 	 * @param  $id
@@ -202,7 +240,7 @@ class User {
 	 * @param  $mdp
 	 * @param  $avatar
 	 * @param  $desc
- 	 * @return void
+	 * @return void
 	 */
 	function modify($id, $email, $pseudo, $mdp, $avatar, $desc){
 		// TODO: modifier un utilisateur
