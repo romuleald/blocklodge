@@ -41,6 +41,7 @@ $(window).bind('focus', function(){
 });
 
 $(document).bind('login', function(){
+	//todo give focus to login
 	BL.dbg.info('login');
 	BL.ui.closePopin('login');
 //	BL.user.

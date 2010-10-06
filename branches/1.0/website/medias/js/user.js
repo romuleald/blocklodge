@@ -19,7 +19,7 @@ BL.user = {
 	 */
 	init:function()
 	{
-		BL.user.sendCookies();
+		BL.dbg.info('start:: init');
 
 		BL.user.obj.oCreate = $('#create');
 		BL.user.obj.oCreate.submit(function(e)
@@ -36,7 +36,8 @@ BL.user = {
 			e.stopPropagation();
 			return false;
 		});
-
+		$(document).trigger('inited')
+		BL.user.sendCookies();
 	},
 	/**
 	 *
@@ -50,6 +51,7 @@ BL.user = {
 	create:function(sParam)
 	{
 		
+		BL.dbg.info('start:: create');
 		var sUrl = 'ws/user.php';
 		var sData = sParam;
 		console.info(sData);
@@ -76,9 +78,9 @@ BL.user = {
 	 */
 	login:function(sParam)
 	{
+		BL.dbg.info('start:: login');
 		var sUrl = 'ws/user.php';
 		var sData = sParam;
-		console.info(sData);
 
 		$.ajax({
 			url:sUrl,
@@ -89,6 +91,7 @@ BL.user = {
 			success:function(response){
 			 //BL.user.login()
 				console.info(response);
+				BL.user.info = response[0].user;
 				$(document).trigger('login');
 
 			},
@@ -98,8 +101,14 @@ BL.user = {
 		});
 		
 	},
+
+	/**
+	 * send cookies data to server to make an autologin or send popin
+	 */
 	sendCookies:function()
 	{
+		BL.dbg.info('start:: sendCookies');
+		
 		var sUrl = 'ws/user.php';
 		var sData = {'ctn':'cks'};
 
