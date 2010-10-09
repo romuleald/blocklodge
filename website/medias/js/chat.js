@@ -199,6 +199,7 @@ BL.chat = {
     	BL.chat.obj.JQoChatList.html(data);
 			// on recupere l'id du dernier message
 			BL.chat.obj.iLastId = parseInt(BL.chat.obj.JQoChatList.find("div:last")[0].id.split('chat')[1]);
+			BL.chat.scrollTo();
 
 		}
 		//otherwise, DOM is injected
@@ -235,8 +236,8 @@ BL.chat = {
 					BL.flashTitle.flash();
 				}
 				i++;
+				BL.chat.scrollTo();
 			}
-			BL.chat.scrollTo();
 
 			BL.chat.obj.iLastId = JSONChat[JSONChat.length-1].index;
 		}
@@ -246,7 +247,8 @@ BL.chat = {
 	scrollTo:function(){
 		if(BL.chat.obj.bCanScroll)
 		{
-	   	BL.chat.obj.JQoChatList.animate({scrollTop:BL.chat.obj.JQoChatList[0].scrollHeight},500);
+	   	BL.ui.scroll(BL.chat.obj.JQoChatList, BL.chat.obj.JQoChatList[0].scrollHeight)
+//			BL.chat.obj.JQoChatList.animate({scrollTop:BL.chat.obj.JQoChatList[0].scrollHeight},500);
 		}
 
 	},

@@ -71,7 +71,6 @@ if(isset($_POST['ctn']))
 		$getCookies = new User();
 		if($getCookies->loginGetCookies())
 		{
-//			echo '[{"statut":"cookies","msg":true,"user":{"pseudo":"'.$getCookies->pseudo.'","email":"'.$getCookies->email.'","avatar":"'.$getCookies->avatar.'","uid":"'.$getCookies->uid.'"}}]';
 			echo '[{"statut":"cookies","msg":true,"user":{"pseudo":"'.$_SESSION["pseudo"].'","email":"'.$_SESSION["email"].'","avatar":"'.$_SESSION["avatar"].'","uid":"'.$_SESSION["uid"].'"}}]';
 		}
 		else{

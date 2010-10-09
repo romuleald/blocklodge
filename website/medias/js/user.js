@@ -89,8 +89,6 @@ BL.user = {
 			data:sData,
 			dataType:'json',
 			success:function(response){
-			 //BL.user.login()
-				console.info(response);
 				BL.user.info = response[0].user;
 				$(document).trigger('login');
 
@@ -120,15 +118,12 @@ BL.user = {
 			dataType:'json',
 			success:function(response){
 			 //BL.user.login()
-				console.info(response[0]);
 				if(response[0].msg)
 				{
 					BL.user.info = response[0].user;
-					console.info('oui');
 					$(document).trigger('login');
 				}
 				else{
-					console.info('non');
 					$(document).trigger('needLogin');
 				}
 

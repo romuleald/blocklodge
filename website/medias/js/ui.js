@@ -95,6 +95,32 @@ BL.ui = {
 		BL.ui.obj.oPopinMask.animate({opacity:0},500).hide(0);
 	},
 	/**
+	 *
+	 * @param {String} sAction
+	 */
+	sizePan:function(sAction){
+		if(sAction == 'showforum')
+		{
+			$('#forum').animate({width:'60%'},500);
+			$('#core').animate({width:'25%'},500);
+		}
+		else if(sAction = 'showCore')
+		{
+			$('#forum').animate({width:'25%'},500);
+			$('#core').animate({width:'60%'},500);
+		}
+	},
+	oCurrentPan:null,
+	/**
+	 *
+	 * @param {String} sPane
+	 */
+	navigate: function(sPane){
+		BL.dbg.info('navigate', sPane);
+
+
+	},
+	/**
 	 * ? popin help
 	 * j, k next/prev message
 	 * . focus on textarea

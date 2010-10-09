@@ -12,6 +12,10 @@ elseif(isset($_SESSION['auth']) != $_COOKIE["auth"])
 {
 	echo '[{"statut":"error","msg":"need login"},{' . $_SESSION['auth'] . ':' . $_COOKIE["auth"] . '}]';
 }
+elseif(empty($_SESSION["pseudo"]))
+{
+	echo '[{"statut":"error","msg":"need login, no pseudo"}';
+}
 else{
 
 
@@ -34,8 +38,8 @@ else{
 		}
 		elseif($result->rowCount() == 0){
 			echo "[{'newMsg':false}]";
-	//		sleep(1);
-	//		return chatGetJson($lastId);
+			//		sleep(1);
+			//		return chatGetJson($lastId);
 		}
 		else
 		{
@@ -43,30 +47,30 @@ else{
 			$result = $conx->query($sQuery);
 			?>[<?php
 				$index = 0;
-				while($row = $result->fetchObject())
+			while($row = $result->fetchObject())
+			{
+				$index++;
+				echo "{";
+				$indexCol = 0;
+				foreach($row as $key => $val)
 				{
-					$index++;
-					echo "{";
-					$indexCol = 0;
-					foreach($row as $key => $val)
-					{
-						$val = str_replace(array("\r", "\r\n", "\n"), ' ', $val);
-						echo "'" . $key . "'";
-						echo ':';
-						echo "'" . $val . "'";
-						if(end($row) != $val)
-						{
-							echo ',';
-						}
-						$indexCol++;
-					}
-					echo "}";
-					if($result->rowCount() > $index)
+					$val = str_replace(array("\r", "\r\n", "\n"), ' ', $val);
+					echo "'" . $key . "'";
+					echo ':';
+					echo "'" . $val . "'";
+					if(end($row) != $val)
 					{
 						echo ',';
 					}
+					$indexCol++;
 				}
-				?>]<?php
+				echo "}";
+				if($result->rowCount() > $index)
+				{
+					echo ',';
+				}
+			}
+			?>]<?php
 
 		}
 		$result->closeCursor();
@@ -76,6 +80,7 @@ else{
 
 	function chatGetHTML()
 	{
+		//todo: change the HTML version to JSON of the all HTML (all WS must be JSON)
 		$conx = conPDO();
 		$sQuery = "SELECT * FROM (SELECT * FROM `chat` ORDER BY `index` DESC LIMIT 30) AS pouet ORDER BY `index` ASC;";
 		$result = $conx->query($sQuery);
@@ -93,15 +98,15 @@ else{
 			}
 
 			while($row = $result->fetchObject()){
-	?>  <div class="padding" id="chat<?php echo $row->index;?>">
-			<p class="user">
-				<a class="pseudo"><?php echo $row->user;?></a>
-				<?php //echo $row["id"];?>
-			<span class="date">à : <?php echo $row->date;?></span>
-			</p>
-			<p class="post<?php echo preg_match("/\b$bIsNamed\b/i", $row->post) ? ' bold' : ''; ?>"><?php echo $row->post = preg_replace("@[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]@","<a href=\"\\0\" onclick=\"window.open(this.href);return false;\">\\0</a>", stripslashes($row->post));?></p>
+				?>  <div class="padding" id="chat<?php echo $row->index;?>">
+					<p class="user">
+						<a class="pseudo"><?php echo $row->user;?></a>
+					<?php //echo $row["id"];?>
+						<span class="date">à : <?php echo $row->date;?></span>
+					</p>
+					<p class="post<?php echo preg_match("/\b$bIsNamed\b/i", $row->post) ? ' bold' : ''; ?>"><?php echo $row->post = preg_replace("@[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]@","<a href=\"\\0\" onclick=\"window.open(this.href);return false;\">\\0</a>", stripslashes($row->post));?></p>
 
-		</div><?php
+				</div><?php
 			}
 		}
 		$result->closeCursor();
@@ -115,12 +120,12 @@ else{
 		$currentDate = date('Y-m-d H:i:s',time());
 
 		$post = htmlspecialchars(addslashes($_POST['post']));
-	//	$post = str_replace(array("\r", "\r\n", "\n"), " ", $post);
-	//	$post = str_replace("<br /><br /><br />", "<br />", $post);
-	//	$post = preg_replace("/<br \/><br \/><br \/>/", "<br /><br />", $post);
+		//	$post = str_replace(array("\r", "\r\n", "\n"), " ", $post);
+		//	$post = str_replace("<br /><br /><br />", "<br />", $post);
+		//	$post = preg_replace("/<br \/><br \/><br \/>/", "<br /><br />", $post);
 
 		$sQuery = "INSERT INTO  `chat` (  `user` ,  `id` ,  `post` ,  `date` ) VALUES ('". $_POST['user'] . "', '" . $_POST['id'] . "', '" . $post . "', '" . $currentDate . "')";
-	//	echo $sQuery;
+		//	echo $sQuery;
 		$result = $conx->query($sQuery);
 		if(!$result){
 			$mes_erreurs = $result->errorInfo();
