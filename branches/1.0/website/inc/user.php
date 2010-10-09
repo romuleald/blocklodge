@@ -153,7 +153,7 @@ class User {
 		//on insere la personne en SQL
 		$conx = conPDO();
 
-		$uid = $this->uid;
+		$uid = $_SESSION["uid"];
 		$ip = $_SERVER["REMOTE_ADDR"];
 		$hash = hash('sha256', $uid . $ip . "bl");
 		$expire = time()+60*60*24*30;
@@ -185,19 +185,54 @@ class User {
 
 			//on insere la personne en SQL
 			$conx = conPDO();
-			$sQuery = "SELECT `hash` FROM `auth` WHERE `hash` = '".$hash."';";
+			$result = $conx->prepare("SELECT `hash`, `expire`, `id` FROM `auth` WHERE `hash` = '".$hash."';");
+			$result->execute();
+			$result = $result->fetch(PDO::FETCH_OBJ);
 
-			$result = $conx->query($sQuery);
-			if($result->rowCount() == 1){
+//			echo "/* ".count($result)." */";
+
+			if(is_object($result) && count($result) == 1){
+
+				// auth ok
+				if($result->expire<time()){
+					// auth expire
+					return false;
+				}
+
+				/* dirty trick */
+				if(!isset($_SESSION["pseudo"])){
+					$this->setUser('','','','');
+
+				}
+				if($_SESSION["pseudo"]== ""){
+//					echo "/* si pas de session */ ";
+					$uid = $result->id;
+					$result2 = $conx->prepare("SELECT `email`, `mdp`, `id`, `user`, `avatar` FROM `user` WHERE `id` = '".$uid."';");
+					$result2->execute();
+					$result2 = $result2->fetch(PDO::FETCH_OBJ);
+					
+					$this->setUser(
+						$result2->id,
+						$result2->email,
+						$result2->user,
+						$result2->avatar
+					);
+
+				}
 				$this->setAuth($hash);
+//				echo "/* 2 */";
 				return true;
 			}
 			else{
+//				echo "/* 3 */";
+				// no auth
 				return false;
 			}
 
 		}
 		else{
+//			echo "/* 4 */";
+			// no cookies
 			return false;
 		}
 
@@ -217,7 +252,7 @@ class User {
 	 * @return void
 	 */
 	function setUser($uid, $email, $pseudo, $avatar){
-
+//		echo "/* ".session_id()." */";
 		$_SESSION['uid'] = $uid;
 		$_SESSION['email'] = $email;
 		$_SESSION['pseudo'] = $pseudo;
@@ -232,6 +267,29 @@ class User {
 	function logout($id){
 		// TODO: Supprime la connexion d'un utilisateur
 		session_unset();
+	}
+	/**
+	 * delete all user's sessions from anothers computers 
+	 * @param  $uid
+	 * @return void
+	 */
+	function killMyOtherSession($uid){
+		$conx = conPDO();
+
+		$uid = $this->uid;
+
+//		echo $hash, $expire;
+
+		$sQuery = "DELETE FROM  `auth` WHERE `id` = ".$uid." && `hash` != ".$_COOKIE['auth'];
+		$result = $conx->query($sQuery);
+		if(!$result){
+			return false;
+		}
+		else{
+			//on set le cookie si c'est bon
+			return true;
+		}
+
 	}
 	/**
 	 * @param  $id

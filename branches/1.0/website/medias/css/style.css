@@ -1,10 +1,5 @@
 /* $Revision$ */
 
-/*DEV:currently hidden*/
-#forum, #notification1 {
-	visibility: hidden;
-}
-
 /* base */
 body {
 	font: normal normal 10px/1.5em 'Nobile', arial, serif;
@@ -196,7 +191,7 @@ html {
 /* helpme */
 
 .iBlk {
-	display: inline-block;
+	display: inline-block!important;
 }
 
 .halfSize {
