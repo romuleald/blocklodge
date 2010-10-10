@@ -61,8 +61,18 @@ $(window).bind('focus', function(){
 $(document).bind('login', function(){
 	BL.dbg.info('login');
 	BL.ui.closePopin('login');
-	//	BL.user.
-	BL.chat.init();
+	BL.dbg.info(document.location.hash.split('#!/'))
+	if(document.location.hash.split('#!/').length == 2){
+
+		if(!BL.ui.navigate(document.location.hash.split('#!/')[1]))
+		{
+
+			//do somthing?
+
+		}
+
+	}
+
 });
 
 /**
@@ -80,7 +90,13 @@ $(document).bind('needLogin', function(){
 $('a.UInavigation').bind('click', function(e){
 	BL.dbg.info('navigation click');
 	$(e).stop();
-	BL.ui.navigate(e.target.href.split('#!')[1]);
+	sHash = e.target.href;
+
+	if(document.location.hash.split('#!/')[1] != sHash.split('!/')[1]){
+		BL.ui.navigate(sHash.split('#!/')[1]);
+		document.location.hash = sHash.split('#')[1];
+	}
+
 	return false;
 
 });

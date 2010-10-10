@@ -21,7 +21,8 @@ BL.ui = {
 		oPopinCtn:{
 			'login':'<div><form id="login"><p><label for="loginEmail">email</label><input type="text" id="loginEmail" name="email" /></p><p><label for="loginPsw">mdp</label><input id="loginPsw" type="password" name="mdp" /></p><p><input id="loginSend" type="submit" value="send" /></p><input type="hidden" name="ctn" value="lgn" /></form></div>'
 		},
-		JQoFormTxtarea:null
+		JQoFormTxtarea:null,
+		aValideUri:['chat','forum','message','profil']
 	},
 	init:function(){
 		BL.ui.obj.oPopin = $('#popin');	
@@ -110,15 +111,62 @@ BL.ui = {
 			$('#core').animate({width:'60%'},500);
 		}
 	},
-	oCurrentPan:null,
+	oCurrentPan:false,
+	/**
+	 *
+	 * @param {Object} oPan jQuery unique DOM Object
+	 */
+	showCurrentPan: function(oPan){
+		if(BL.ui.oCurrentPan){
+			BL.ui.oCurrentPan.css({opacity:.6}).animate({opacity:'0'},200, function(){
+				$(this).css({left:'-100%',opacity:1});
+			});
+		}
+		oPan.css({left:'-60%'}).animate({left:'0%'},200);
+		BL.ui.oCurrentPan = oPan;
+	},
 	/**
 	 *
 	 * @param {String} sPane
 	 */
 	navigate: function(sPane){
+
 		BL.dbg.info('navigate', sPane);
 
+		if(BL.ui.isValidePath(document.location.hash.split('#!/')[1])){
 
+
+			/*
+
+				switch between panel, if go on chat, active/reumse it, if leave it, pause it
+				etc etc for others panes
+
+			*/
+
+			BL.ui.showCurrentPan($('#' + sPane));
+			return true;
+
+		}
+
+		return false;
+
+	},
+	/**
+	 * return true or false if the path asked exist
+	 * @param {String} sPath
+	 */
+	isValidePath:function(sPath){
+
+		for(var i = 0;BL.ui.obj.aValideUri.length;i++){
+			if(BL.ui.obj.aValideUri[i] == sPath){
+
+				return true;
+
+			}
+
+			return false;
+
+		}
 	},
 	/**
 	 * ? popin help
