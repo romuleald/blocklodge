@@ -25,6 +25,8 @@ BL.chat = {
 		JQoFormTxtarea:null,
 		JQoChats:null,
 		JQoChatList:null,
+		isInit:false,
+		isPaused:false,
 		bCanScroll:true,
 		bCanPost:true,
 		iLastId:0,
@@ -98,6 +100,7 @@ BL.chat = {
 
 			}
 		});
+
 		BL.chat.obj.JQoFormTxtarea.keydown(function(e)
 		{
 			if(BL.chat.obj.oPostedMsg.aMsgs.length == 0){return}			
@@ -134,6 +137,7 @@ BL.chat = {
 				}
 			}
 		});
+		BL.chat.obj.isInit = true;
 		BL.chat.refreshView(true);
 //		BL.chat.isOnline();
 
@@ -161,11 +165,22 @@ BL.chat = {
 		})
 
 	},
+	pauseChat:function(){
+		BL.chat.obj.isPaused = true;
+		clearTimeout(BL.chat.obj.timeOut);
+	},
+	resumeChat:function(){
+		BL.chat.obj.isPaused = false;
+		BL.chat.refreshView(true);
+	},
 	/**
 	 *
 	 * @param bIsFirst bolean
 	 */
 	refreshView:function(bIsFirst){
+		if(BL.chat.obj.isPaused){
+			return false;
+		}
 		clearTimeout(BL.chat.obj.timeOut);
 
 		BL.chat.obj.iRefreshTime = new Date();

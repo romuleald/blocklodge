@@ -44,6 +44,7 @@
 -->
 		</div>
 	</div>
+	<div id="navigationBar"><a class="UInavigation" href="#!/profil">profil</a> | <a class="UInavigation" href="#!/chat">chat</a> | <a class="UInavigation" href="#!/messages">messages</a></div>
 	<div id="forum" class="iBlk vaT">
 		<ul>
 			<li>tabs</li>
@@ -94,29 +95,54 @@
 		</div>
 	</div>
 	<div id="core" class="iBlk vaT">
-		<div id=""><a class="UInavigation" href="#!/profil">profil</a> | <a class="UInavigation" href="#!/chat">chat</a> | <a class="UInavigation" href="#!/messages">messages</a></div>
+		<div id="chat" class="coreTab coreTabUnactiv">
+			<div class="inCoreTab">
+				chat
+				<div id="chatList"></div>
 
-		<div id="chat">
-			chat
-			<div id="chatList">
+				<form action="javascript:void(0)" method="post" onsubmit="return false;" id="chatForm">
+					<p>
+						<label for="chatMsg">message</label><br/>
+						<textarea id="chatMsg" rows="3" cols="60" name="post"></textarea>
+					</p>
+					<p>
+						<input type="hidden" value="pseudo" name="user" id="user" />
+						<input type="hidden" value="1" id="uid" name="id" />
+					</p>
+					<p><input type="submit" value="envoyer" /></p>
+				</form>
+			</div>
+		</div>
+		<div id="profil" class="coreTab coreTabUnactiv">
+			profil
+			<div class="inCoreTab">
+				<form action="" id="create">
+					<p>
+						<label>email</label><input type="text" name="email" />
+					</p>
+					<p>
+						<label></label><input type="text" name="pseudo" />
+					</p>
+					<p>
+						<label>mot de passe</label><input type="password" name="mdp" />
+					</p>
+					<p>
+						<label>avatar</label><input type="file" name="avatar" />
+					</p>
+					<p>
+						<label>égo</label><textarea rows="1" cols="30" name="desc"></textarea>
+					</p>
+					<p>
+						<input type="submit" value="send" />
+					</p>
+				</form>
+			</div>
+		</div>
+		<div id="messages" class="coreTab coreTabUnactiv">
+			<div class="inCoreTab">
+				plein de message
 
 			</div>
-			<form action="javascript:void(0)" method="post" onsubmit="return false;" id="chatForm">
-				<p>
-					<label for="chatMsg">message</label><br/>
-					<textarea id="chatMsg" rows="3" cols="60" name="post"></textarea>
-				</p>
-				<p>
-					<input type="hidden" value="pseudo" name="user" id="user" />
-					<input type="hidden" value="1" id="uid" name="id" />
-				</p>
-				<p><input type="submit" value="envoyer" /></p>
-			</form>
-		</div>
-		<div id="profil">
-			profil
-		</div>
-		<div id="messages">
 			messages
 		</div>
 	</div>
