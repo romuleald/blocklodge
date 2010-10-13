@@ -22,7 +22,7 @@ BL.ui = {
 			'login':'<div><form id="login"><p><label for="loginEmail">email</label><input type="text" id="loginEmail" name="email" /></p><p><label for="loginPsw">mdp</label><input id="loginPsw" type="password" name="mdp" /></p><p><input id="loginSend" type="submit" value="send" /></p><input type="hidden" name="ctn" value="lgn" /></form></div>'
 		},
 		JQoFormTxtarea:null,
-		aValideUri:['chat','forum','message','profil']
+		aValideUri:['chat','forum','messages','profil']
 	},
 	init:function(){
 		BL.ui.obj.oPopin = $('#popin');	
@@ -131,9 +131,10 @@ BL.ui = {
 	 */
 	navigate: function(sPane){
 
-		BL.dbg.info('navigate', sPane);
+		BL.dbg.info('navigate', sPane, BL.ui.isValidePath(sPane));
 
-		if(BL.ui.isValidePath(document.location.hash.split('#!/')[1])){
+
+		if(BL.ui.isValidePath(sPane)){
 
 
 			/*
@@ -142,8 +143,18 @@ BL.ui = {
 				etc etc for others panes
 
 			*/
+			BL.dbg.info('switch');
+			if(sPane == 'chat')
+			{
+					BL.chat.resumeChat();
+			}
+			else
+			{
+				BL.chat.pauseChat();
+			}
 
 			BL.ui.showCurrentPan($('#' + sPane));
+
 			return true;
 
 		}
@@ -156,17 +167,16 @@ BL.ui = {
 	 * @param {String} sPath
 	 */
 	isValidePath:function(sPath){
-
-		for(var i = 0;BL.ui.obj.aValideUri.length;i++){
+		BL.dbg.info('isValidePath', sPath);
+		for(var i = 0;BL.ui.obj.aValideUri.length>i;i++){
 			if(BL.ui.obj.aValideUri[i] == sPath){
-
+				BL.dbg.info('FOR isValidePath TRUE');
 				return true;
 
 			}
 
-			return false;
-
 		}
+		return false;
 	},
 	/**
 	 * ? popin help

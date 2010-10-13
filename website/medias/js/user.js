@@ -29,6 +29,14 @@ BL.user = {
 			return false;
 		});
 
+		BL.user.obj.oCreate = $('#modify');
+		BL.user.obj.oCreate.submit(function(e)
+		{
+			BL.user.modify($(this).serialize());
+			e.stopPropagation();
+			return false;
+		});
+
 		BL.user.obj.oLogin = $('#login');
 		BL.user.obj.oLogin.live('submit',function(e)
 		{
@@ -51,7 +59,7 @@ BL.user = {
 	create:function(sParam)
 	{
 		
-		BL.dbg.info('start:: create');
+		BL.dbg.info('start:: user create');
 		var sUrl = 'ws/user.php';
 		var sData = sParam;
 		console.info(sData);
@@ -78,7 +86,7 @@ BL.user = {
 	 */
 	login:function(sParam)
 	{
-		BL.dbg.info('start:: login');
+		BL.dbg.info('start:: user login');
 		var sUrl = 'ws/user.php';
 		var sData = sParam;
 
@@ -105,7 +113,7 @@ BL.user = {
 	 */
 	sendCookies:function()
 	{
-		BL.dbg.info('start:: sendCookies');
+		BL.dbg.info('start:: user sendCookies');
 		
 		var sUrl = 'ws/user.php';
 		var sData = {'ctn':'cks'};
@@ -144,14 +152,29 @@ BL.user = {
 	},
 	/**
 	 *
-	 * @param sEmail
-	 * @param sPseudo
-	 * @param sMdp
-	 * @param sAvatar
-	 * @param sDesc
+	 * @param sParam
+	 * 
 	 */
-	modify:function(sEmail, sPseudo, sMdp, sAvatar, sDesc)
+	modify:function(sParam)
 	{
+
+		BL.dbg.info('start:: user modify');
+		var sUrl = 'ws/user.php';
+		var sData = sParam;
+		console.info(sData);
+
+		$.ajax({
+			url:sUrl,
+			type:'POST',
+			cache:false,
+			data:sData,
+			success:function(sParam){
+//			 BL.user.login()
+			},
+			error:function(sData){
+				console.error(sData);
+			}
+		});
 
 	},
 	/**

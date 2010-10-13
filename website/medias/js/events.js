@@ -15,6 +15,7 @@ $().ready(function()
 	BL.sizeStructure();
 	BL.ui.init();
 	BL.user.init();
+	BL.chat.init();
 	document.oldTitle = document.title;
 });
 
@@ -61,7 +62,6 @@ $(window).bind('focus', function(){
 $(document).bind('login', function(){
 	BL.dbg.info('login');
 	BL.ui.closePopin('login');
-	BL.dbg.info(document.location.hash.split('#!/'))
 	if(document.location.hash.split('#!/').length == 2){
 
 		if(!BL.ui.navigate(document.location.hash.split('#!/')[1]))
