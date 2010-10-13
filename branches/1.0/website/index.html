@@ -116,12 +116,12 @@
 		<div id="profil" class="coreTab coreTabUnactiv">
 			profil
 			<div class="inCoreTab">
-				<form action="" id="create">
+				<form action="" id="modify">
 					<p>
 						<label>email</label><input type="text" name="email" />
 					</p>
 					<p>
-						<label></label><input type="text" name="pseudo" />
+						<label>pseudo</label><input type="text" name="pseudo" />
 					</p>
 					<p>
 						<label>mot de passe</label><input type="password" name="mdp" />
@@ -133,6 +133,7 @@
 						<label>égo</label><textarea rows="1" cols="30" name="desc"></textarea>
 					</p>
 					<p>
+						<input type="hidden" name="ctn" value="mdf" />
 						<input type="submit" value="send" />
 					</p>
 				</form>

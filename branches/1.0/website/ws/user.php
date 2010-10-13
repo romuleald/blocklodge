@@ -39,11 +39,13 @@ if(isset($_POST['ctn']))
 	$desc =   (isset($_POST['desc'])   && !empty($_POST['desc']))     ? $_POST['desc']    : null;
 	$birth =  (isset($_POST['birth'])  && !empty($_POST['birth']))    ? $_POST['birth']   : null;
 	$parent = (isset($_POST['parent']) && !empty($_POST['parent']))   ? $_POST['parent']  : null;
+	$avatar = (isset($_POST['avatar']) && !empty($_POST['avatar']))   ? $_POST['avatar']  : null;
 
 	if($_POST['ctn'] == 'crt')
 	{
 		create_user($email, $pseudo, $mdp, $desc, $birth, $parent);
 	}
+
 	if($_POST['ctn'] == 'lgn')
 	{
 		$login = new User();
@@ -77,6 +79,13 @@ if(isset($_POST['ctn']))
 			echo '[{"statut":"cookies","msg":false}]';
 		}
 	}
+
+	if($_POST['ctn'] == 'mdf')
+	{
+		$modify = new User();
+		$modify->modify($email, $pseudo, $birth, $avatar, $desc);
+	}
+
 }
 else{
 	header("HTTP/1.0 403 Forbidden");

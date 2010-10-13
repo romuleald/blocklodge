@@ -138,7 +138,7 @@ BL.chat = {
 			}
 		});
 		BL.chat.obj.isInit = true;
-		BL.chat.refreshView(true);
+//		BL.chat.refreshView(true);
 //		BL.chat.isOnline();
 
 	},
@@ -166,10 +166,12 @@ BL.chat = {
 
 	},
 	pauseChat:function(){
+		BL.dbg.info('pause chat');
 		BL.chat.obj.isPaused = true;
 		clearTimeout(BL.chat.obj.timeOut);
 	},
 	resumeChat:function(){
+		BL.dbg.info('resume chat');
 		BL.chat.obj.isPaused = false;
 		BL.chat.refreshView(true);
 	},
@@ -178,9 +180,11 @@ BL.chat = {
 	 * @param bIsFirst bolean
 	 */
 	refreshView:function(bIsFirst){
+
 		if(BL.chat.obj.isPaused){
 			return false;
 		}
+
 		clearTimeout(BL.chat.obj.timeOut);
 
 		BL.chat.obj.iRefreshTime = new Date();

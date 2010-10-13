@@ -300,9 +300,73 @@ class User {
 	 * @param  $desc
 	 * @return void
 	 */
-	function modify($id, $email, $pseudo, $mdp, $avatar, $desc){
+	function modify($email, $pseudo, $birth, $avatar, $desc){
 		// TODO: modifier un utilisateur
 
+		$conx = conPDO();
+		$result = array();
+		$uid = $_SESSION["uid"]; 
+		$i = 0;
+
+		//TODO: i think theres's a better way to optimize these requests
+		//but for the moment it's enough, see over bindparam/value
+
+		if(!empty($email))
+		{
+			$result[$i++] = $conx->prepare("UPDATE `user` SET `email` = '". $email ."' WHERE `id` = ".$uid);
+		}
+		if(!empty($pseudo))
+		{
+			$result[$i++] = $conx->prepare("UPDATE `user` SET `user` = '". $pseudo ."' WHERE `id` = ".$uid);
+		}
+		if(!empty($birth))
+		{
+
+			if($birth > time() - 18 * 365*24*60*60)
+			{
+				//error, must be 18+
+				//			header("HTTP/1.0 403 Forbidden");
+				//			echo '[{"statut":"error","msg":"trop jeune"}]';
+				//			return false;
+				$result[$i++] = $conx->prepare("UPDATE `user` SET `birth` = '". $birth ."' WHERE `id` = ".$uid);
+
+			}
+		}
+		if(!empty($desc))
+		{
+			$result[$i++] = $conx->prepare("UPDATE `user` SET `desc` = '". $desc ."' WHERE `id` = ".$uid);
+		}
+/*
+		if(!empty($avatar))
+		{
+			$result[$i++] = $conx->prepare("REPLACE INTO `user` (`avatar`) VALUES ('". $email ."') ");
+		}
+ */
+
+		foreach($result as $request){
+			$result = $request->execute();
+			if($result){
+				echo '[{"statut":"error","msg":":)"}]';
+			}
+			else
+			{
+				echo '[{"statut":"error","msg":":("}]';
+			}
+
+		}
+
+/*		$result = $result->fetch(PDO::FETCH_OBJ);
+
+
+		if(!$result){
+			header("HTTP/1.0 403 Forbidden");
+			echo '[{"statut":"error","msg":"email déjà existant"}]';
+			return false;
+		}
+		else{
+			return true;
+		}
+*/
 	}
 	/**
 	 * @param  $email
