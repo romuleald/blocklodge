@@ -168,11 +168,25 @@ BL.user = {
 			type:'POST',
 			cache:false,
 			data:sData,
-			success:function(sParam){
-//			 BL.user.login()
+			dataType:'json',
+			success:function(response){
+
+				BL.dbg.info(response);
+				if(response[0].msg)
+				{
+
+					BL.user.info = response[0].user;
+					$(document).trigger('userModifier');
+
+				}
+
 			},
+
 			error:function(sData){
+
+				$(document).trigger('userModifierError');
 				console.error(sData);
+
 			}
 		});
 

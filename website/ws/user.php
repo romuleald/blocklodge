@@ -54,7 +54,7 @@ if(isset($_POST['ctn']))
 			if($login->loginSetCookies($email, $mdp))
 			{
 //				session_start();
-				echo '[{"statut":"login","msg":true,"user":{"pseudo":"'.$_SESSION["pseudo"].'","email":"'.$_SESSION["email"].'","avatar":"'.$_SESSION["avatar"].'","uid":"'.$_SESSION["uid"].'"}}]';
+				echo '[{"statut":"login","msg":true,'.$login->getUser().'}]';
 			}
 			else
 			{
@@ -73,7 +73,7 @@ if(isset($_POST['ctn']))
 		$getCookies = new User();
 		if($getCookies->loginGetCookies())
 		{
-			echo '[{"statut":"cookies","msg":true,"user":{"pseudo":"'.$_SESSION["pseudo"].'","email":"'.$_SESSION["email"].'","avatar":"'.$_SESSION["avatar"].'","uid":"'.$_SESSION["uid"].'"}}]';
+			echo '[{"statut":"cookies","msg":true,'.$getCookies->getUser().'}]';
 		}
 		else{
 			echo '[{"statut":"cookies","msg":false}]';
@@ -83,7 +83,9 @@ if(isset($_POST['ctn']))
 	if($_POST['ctn'] == 'mdf')
 	{
 		$modify = new User();
-		$modify->modify($email, $pseudo, $birth, $avatar, $desc);
+		if($modify->modify($email, $pseudo, $birth, $avatar, $desc)){
+			echo '[{"statut":"cookies","msg":true,'.$modify->getUser().'}]';
+		}
 	}
 
 }
