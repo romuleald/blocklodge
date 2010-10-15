@@ -245,6 +245,7 @@ class User {
 		$_SESSION['auth'] = $hash;
 	}
 	/**
+	 * set session user info, if value is empty, data will not be set
 	 * @param  $uid
 	 * @param  $email
 	 * @param  $pseudo
@@ -253,11 +254,31 @@ class User {
 	 */
 	function setUser($uid, $email, $pseudo, $avatar){
 //		echo "/* ".session_id()." */";
-		$_SESSION['uid'] = $uid;
-		$_SESSION['email'] = $email;
-		$_SESSION['pseudo'] = $pseudo;
-		$_SESSION['avatar'] = $avatar;
 
+		if($uid != ""){
+			$_SESSION['uid'] = $uid;
+		}
+
+		if($email != ""){
+			$_SESSION['email'] = $email;
+		}
+
+		if($pseudo != ""){
+			$_SESSION['pseudo'] = $pseudo;
+		}
+
+		if($avatar != ""){
+			$_SESSION['avatar'] = $avatar;
+		}
+
+	}
+
+	/**
+	 * get user info, return a json value
+	 * @return void
+	 */
+	function getUser(){
+		return '"user":{"pseudo":"'.$_SESSION["pseudo"].'","email":"'.$_SESSION["email"].'","avatar":"'.$_SESSION["avatar"].'","uid":"'.$_SESSION["uid"].'"}';
 	}
 
 	/**
@@ -292,13 +313,13 @@ class User {
 
 	}
 	/**
-	 * @param  $id
+	 * 
 	 * @param  $email
 	 * @param  $pseudo
-	 * @param  $mdp
+	 * @param  $birth
 	 * @param  $avatar
 	 * @param  $desc
-	 * @return void
+	 * @return boolean
 	 */
 	function modify($email, $pseudo, $birth, $avatar, $desc){
 		// TODO: modifier un utilisateur
@@ -343,15 +364,19 @@ class User {
 		}
  */
 
+		$bNoError = true;
 		foreach($result as $request){
 			$result = $request->execute();
 			if($result){
-				echo '[{"statut":"error","msg":":)"}]';
+
+				$this->setUser($uid, $email, $pseudo, $avatar);
 			}
 			else
 			{
-				echo '[{"statut":"error","msg":":("}]';
+				$bNoError = false;
 			}
+
+			return $bNoError;
 
 		}
 

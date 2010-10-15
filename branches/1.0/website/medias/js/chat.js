@@ -103,7 +103,7 @@ BL.chat = {
 
 		BL.chat.obj.JQoFormTxtarea.keydown(function(e)
 		{
-			if(BL.chat.obj.oPostedMsg.aMsgs.length == 0){return}			
+			if(BL.chat.obj.oPostedMsg.aMsgs.length == 0){return}
 			if(e.ctrlKey){
 				iPos =BL.chat.obj.oPostedMsg.iPos;
 				if(e.keyCode == 40)
@@ -144,19 +144,31 @@ BL.chat = {
 	},
 	/**
 	 *
-	 * @param oData object
+	 * @param JQoData object
 	 */
-	sendChat:function(oData){
+	sendChat:function(JQoData){
 		if(!BL.chat.obj.bCanPost){return}
 		BL.chat.obj.bCanPost = false;
 		BL.chat.obj.JQoForm.fadeTo(100,0.5);
-//		console.info(oData);
+
+		var sPost = JQoData.find('textarea').val();
+
+		var oDataToPost = {
+			'user':BL.user.info.pseudo,
+			'id':BL.user.info.uid,
+			'post':sPost
+		};
+
+		// stock le message envoyé pour l'historique
 		BL.chat.obj.oPostedMsg.aMsgs.push(BL.chat.obj.JQoFormTxtarea.val());
+
 		$.ajax({
 			url:"ws/chat.php",
 			type:"POST",
-			data:oData.serialize(),
+			data:oDataToPost,
 			success:function(){
+
+	      //todo remove all function here & replace them by a fire event
 
 				BL.chat.refreshView(false);
 				BL.chat.obj.bCanPost = true;
@@ -244,7 +256,7 @@ BL.chat = {
 				sTpl += '<a class="pseudo">' +JSONChat[i].user +'</a>';
 //				sTpl += JSONChat[i].id;
 				sTpl += ' <span class="date">à : ' + JSONChat[i].date + '</span></p>';
-				var sClassIsQuoted = (JSONChat[i].post.match(document.getElementById('user').value)) ? ' bold':'';
+				var sClassIsQuoted = (JSONChat[i].post.match(BL.user.info.pseudo)) ? ' bold':'';
 				sTpl += '<p class="post' + sClassIsQuoted + '">' + JSONChat[i].post.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,'<a href="$1" onclick="window.open(this.href);return false;">$1</a>', JSONChat[i].post) + '</p>';
 				sTpl += '';
 				oDiv.innerHTML = sTpl;
