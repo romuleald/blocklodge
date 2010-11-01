@@ -100,3 +100,26 @@ $('a.UInavigation').bind('click', function(e){
 	return false;
 
 });
+
+/* logout */
+$('#logout').bind('click', function(e){
+
+	BL.dbg.info('logout click');
+	$(e).stop();
+
+    BL.user.logout();
+
+	return false;
+
+});
+
+$(document).bind('logout', function(){
+    BL.dbg.info('logout reload');
+    document.location.reload();
+});
+
+$(document).bind('explode', function(){
+	BL.dbg.info('needLogin');
+	BL.ui.openPopin(BL.ui.obj.oPopinTpl.base, BL.ui.obj.oPopin, {'type':'string','Content':'<p>OSHI WE GONNA DIE!!!</p>','context':'explode'});
+	$('#loginEmail').focus();
+});

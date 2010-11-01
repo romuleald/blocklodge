@@ -73,6 +73,7 @@ html {
 	width: 25%;
 	background: #090909;
 	border: solid 1px #BBB;
+	visibility:hidden;
 }
 
 #core {
@@ -120,7 +121,7 @@ html {
 
 #chatList .post {
 	margin: 5px 0;
-	word-break: break-all;
+	word-break: break-word;
 }
 
 #chatList .date {
@@ -223,6 +224,9 @@ html {
 
 .padding {
 	padding: 10px;
+}
+.Lmrg{
+    margin-left: 10px;
 }
 .overflowA{
 	overflow:auto;

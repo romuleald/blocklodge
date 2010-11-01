@@ -92,9 +92,9 @@ else{
 		{
 			// if blank, any space will provoc bold
 			$bIsNamed = "untrucimpossiblearefairedansunpseudo654984-('";
-			if(isset($_COOKIE["user"]))
+			if(isset($_SESSION["pseudo"]))
 			{
-				$bIsNamed = $_COOKIE["user"];
+				$bIsNamed = $_SESSION["pseudo"];
 			}
 
 			while($row = $result->fetchObject()){

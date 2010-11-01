@@ -6,7 +6,20 @@
  * To change this template use File | Settings | File Templates.
  */
 BL.user = {
+	/**
+	 * user info
+	 * contains data: {pseudo, email, avatar, uid}
+	 */
 	info:{'pseudo':'','email':'','avatar':'','uid':''},
+	/**
+	 * obj temporary
+	 *
+	 * oCreate    : Jquery DOM object
+	 * oModify    : Jquery DOM object
+	 * oLogout    : Jquery DOM object
+	 * oModifyPsw : Jquery DOM object
+	 * oLogin     : Jquery DOM object
+	 */
 	obj:{
 		oCreate:null,
 		oModify:null,
@@ -44,7 +57,7 @@ BL.user = {
 			e.stopPropagation();
 			return false;
 		});
-		$(document).trigger('inited')
+		$(document).trigger('inited');
 		BL.user.sendCookies();
 	},
 	/**
@@ -148,6 +161,35 @@ BL.user = {
 	 */
 	logout:function(iId)
 	{
+        BL.dbg.info('start:: user logout');
+
+        var sUrl = 'ws/user.php';
+        var sData = {'ctn':'lgt'};
+
+        $.ajax({
+            url:sUrl,
+            type:'POST',
+            cache:false,
+            data:sData,
+            dataType:'json',
+            success:function(response){
+             //BL.user.login()
+                BL.dbg.info(response);
+                if(response[0].msg)
+                {
+                    BL.dbg.info("ok");
+                    $(document).trigger('logout');
+                }
+                else{
+                    BL.dbg.info("nok");
+                    $(document).trigger('explode');
+                }
+
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                console.error(xhr, ajaxOptions, thrownError);
+            }
+        });
 
 	},
 	/**
@@ -190,6 +232,11 @@ BL.user = {
 			}
 		});
 
+	},
+	setUserInfoToField:function(){
+		BL.user.obj.oCreate.find('input[name=email]').val(BL.user.info.email);
+		BL.user.obj.oCreate.find('input[name=pseudo]').val(BL.user.info.pseudo);
+//		BL.user.obj.oCreate.find('input[name=desc]').val(BL.user.info.);
 	},
 	/**
 	 *

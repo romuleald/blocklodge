@@ -11,6 +11,9 @@
 session_start();
 
 require_once "../inc/tehbd.php";
+/**
+ * @class User
+ */
 class User {
 	var $uid;
 	var $pseudo;
@@ -31,15 +34,13 @@ class User {
 			header("HTTP/1.0 403 Forbidden");
 			echo '[{"statut":"error","msg":"email manquant"}]';
 			return false;
-			exit;
 		}
 		if(empty($pseudo))
 		{
 			//error, mandatory
 			header("HTTP/1.0 403 Forbidden");
-			return false;
-			echo '[{"statut":"error","msg":"pseudo manquant"}]';
-			exit;
+            echo '[{"statut":"error","msg":"pseudo manquant"}]';
+            return false;
 		}
 		if(empty($mdp))
 		{
@@ -47,7 +48,6 @@ class User {
 			header("HTTP/1.0 403 Forbidden");
 			echo '[{"statut":"error","msg":"mot de passe oublié"}]';
 			return false;
-			exit;
 		}
 		if(empty($desc))
 		{
@@ -106,7 +106,6 @@ class User {
 			header("HTTP/1.0 403 Forbidden");
 			echo '[{"statut":"error","msg":"email manquant"}]';
 			return false;
-			exit;
 		}
 		if(empty($mdp))
 		{
@@ -114,7 +113,6 @@ class User {
 			header("HTTP/1.0 403 Forbidden");
 			echo '[{"statut":"error","msg":"mot de passe oublié"}]';
 			return false;
-			exit;
 		}
 
 		$conx = conPDO();
@@ -203,22 +201,23 @@ class User {
 				if(!isset($_SESSION["pseudo"])){
 					$this->setUser('','','','');
 
-				}
-				if($_SESSION["pseudo"]== ""){
-//					echo "/* si pas de session */ ";
-					$uid = $result->id;
-					$result2 = $conx->prepare("SELECT `email`, `mdp`, `id`, `user`, `avatar` FROM `user` WHERE `id` = '".$uid."';");
-					$result2->execute();
-					$result2 = $result2->fetch(PDO::FETCH_OBJ);
-					
-					$this->setUser(
-						$result2->id,
-						$result2->email,
-						$result2->user,
-						$result2->avatar
-					);
+                    if($_SESSION["pseudo"]== ""){
+                        //					echo "/* si pas de session */ ";
+                        $uid = $result->id;
+                        $result2 = $conx->prepare("SELECT `email`, `mdp`, `id`, `user`, `avatar` FROM `user` WHERE `id` = '".$uid."';");
+                        $result2->execute();
+                        $result2 = $result2->fetch(PDO::FETCH_OBJ);
 
-				}
+                        $this->setUser(
+                            $result2->id,
+                            $result2->email,
+                            $result2->user,
+                            $result2->avatar
+                        );
+
+                    }
+
+                }
 				$this->setAuth($hash);
 //				echo "/* 2 */";
 				return true;
@@ -278,16 +277,38 @@ class User {
 	 * @return void
 	 */
 	function getUser(){
-		return '"user":{"pseudo":"'.$_SESSION["pseudo"].'","email":"'.$_SESSION["email"].'","avatar":"'.$_SESSION["avatar"].'","uid":"'.$_SESSION["uid"].'"}';
+		return '"user":{"pseudo":"'.$_SESSION["pseudo"].'","email":"'.$_SESSION["email"].'","uid":"'.$_SESSION["uid"].'"}';
 	}
 
 	/**
 	 * @param  $id
 	 * @return void
 	 */
-	function logout($id){
-		// TODO: Supprime la connexion d'un utilisateur
-		session_unset();
+	function logout(){
+
+
+
+
+        $conx = conPDO();
+
+        $uid = $_SESSION["uid"];
+        $cookies = $_SESSION["auth"];
+
+//		echo $hash, $expire;
+
+        $sQuery = "DELETE FROM `auth` WHERE `id` = ".$uid." && `hash` = '".$cookies."';";
+
+        $result = $conx->query($sQuery);
+        if(!$result){
+            return false;
+        }
+        else{
+            //on set le cookie si c'est bon
+            session_unset();
+            return true;
+        }
+
+
 	}
 	/**
 	 * delete all user's sessions from anothers computers 

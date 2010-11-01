@@ -143,7 +143,6 @@ BL.ui = {
 				etc etc for others panes
 
 			*/
-			BL.dbg.info('switch');
 			if(sPane == 'chat')
 			{
 					BL.chat.resumeChat();
@@ -153,10 +152,15 @@ BL.ui = {
 				BL.chat.pauseChat();
 			}
 
+			if(sPane == 'profil')
+			{
+				BL.user.setUserInfoToField();
+			}
+
 			BL.ui.showCurrentPan($('#' + sPane));
 
-			return true;
 
+			return true;
 		}
 
 		return false;
