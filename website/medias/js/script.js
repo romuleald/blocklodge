@@ -14,7 +14,7 @@ BL.sizeStructure = function()
 
 
 BL.dbg = {
-	enabled:true,
+	enabled:false,
 	log:function(){
 		if(BL.dbg.enabled){
 			console.log(arguments)
@@ -31,3 +31,4 @@ BL.dbg = {
 		}
 	}
 };
+if(document.location.host == '1.bl'){BL.dbg.enabled = true;}

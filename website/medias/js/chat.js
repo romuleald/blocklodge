@@ -254,9 +254,11 @@ BL.chat = {
 				var sTpl = '';
 				sTpl += '<p class="user">';
 				sTpl += '<a class="pseudo">' +JSONChat[i].user +'</a>';
-//				sTpl += JSONChat[i].id;
-				sTpl += ' <span class="date">à : ' + JSONChat[i].date + '</span></p>';
-				var sClassIsQuoted = (JSONChat[i].post.match(BL.user.info.pseudo)) ? ' bold':'';
+				sTpl += ' <span class="date">&agrave; : ' + JSONChat[i].date + '</span></p>';
+
+				//todo faire une regexp
+				var sClassIsQuoted = (JSONChat[i].post.match(BL.user.info.pseudo + '')) ? ' bold':'';
+
 				sTpl += '<p class="post' + sClassIsQuoted + '">' + JSONChat[i].post.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,'<a href="$1" onclick="window.open(this.href);return false;">$1</a>', JSONChat[i].post) + '</p>';
 				sTpl += '';
 				oDiv.innerHTML = sTpl;

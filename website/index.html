@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns:a="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<title>BlackLodge - BETA</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -44,7 +44,13 @@
 -->
 		</div>
 	</div>
-	<div id="navigationBar"><a class="UInavigation" href="#!/profil">profil</a> | <a class="UInavigation" href="#!/chat">chat</a> | <a class="UInavigation" href="#!/messages">messages</a></div>
+	<div id="navigationBar">
+        <a class="UInavigation" href="#!/profil">profil</a> |
+        <a class="UInavigation" href="#!/chat">chat</a> |
+        <a class="UInavigation" href="#!/messages">messages</a>
+        <span id="logout" class="Lmrg">s'expulser</span>
+
+    </div>
 	<div id="forum" class="iBlk vaT">
 		<ul>
 			<li>tabs</li>
@@ -156,8 +162,7 @@
 </div>
 <div id="mask"></div>
 <div id="popin"></div>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script type="text/javascript" src="medias/js/JQcookie.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
 <script type="text/javascript" src="medias/js/script.js"></script>
 <script type="text/javascript" src="medias/js/ui.js"></script>
 <script type="text/javascript" src="medias/js/chat.js"></script>

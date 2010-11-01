@@ -88,6 +88,18 @@ if(isset($_POST['ctn']))
 		}
 	}
 
+	if($_POST['ctn'] == 'lgt')
+	{
+		$modify = new User();
+		if($modify->logout()){
+			echo '[{"statut":"logout","msg":true}]';
+		}
+        else
+        {
+            echo '[{"statut":"logout","msg":"may exploed"}]';
+        }
+	}
+
 }
 else{
 	header("HTTP/1.0 403 Forbidden");
