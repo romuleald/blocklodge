@@ -12,11 +12,12 @@
 $().ready(function()
 {
 	BL.dbg.info('ready');
-	BL.sizeStructure();
-	BL.ui.init();
-	BL.user.init();
-	BL.chat.init();
-	document.oldTitle = document.title;
+    BL.ui.obj.sCurrentPane = document.location.hash.split('#!/')[1];
+    BL.sizeStructure();
+    BL.ui.init();
+    BL.user.init();
+    BL.chat.init();
+    document.oldTitle = document.title;
 });
 
 /**
@@ -44,6 +45,7 @@ $(window).bind('blur', function(){
 	BL.dbg.info('blur');
 	BL.away.bIsAway = true;
 	BL.away.iSince = new Date().getTime();
+    BL.chat.pauseChat();
 });
 
 /**
@@ -52,8 +54,10 @@ $(window).bind('blur', function(){
 $(window).bind('focus', function(){
 	BL.dbg.info('focus');
 	BL.away.bIsAway = false;
+    BL.chat.obj.iTimer = BL.chat.obj.iTimer / 10;
 	BL.chat.obj.iUnreadMsg = 0;
 	BL.flashTitle.reset();
+    BL.ui.navigateOption();
 });
 
 /**
